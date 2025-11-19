@@ -1,0 +1,1049 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+    <meta name="AIGC" content="{&quot;Label&quot;: &quot;1&quot;, &quot;ContentProducer&quot;: &quot;001191330101MA27WPYJ18xliu&quot;, &quot;ProduceID&quot;: &quot;f596ee3e-2385-46a2-ba32-049796eee687&quot;, &quot;ReserveCode1&quot;: &quot;iflow&quot;, &quot;ContentPropagator&quot;: &quot;iflow&quot;, &quot;PropagateID&quot;: &quot;iflow&quot;, &quot;ReserveCode2&quot;: &quot;iflow&quot;}">
+<meta content='{"Label": "1", "ContentProducer": "001191330101MA27WPYJ18xliu", "ProduceID": "15918ce7-a9ef-49d4-ae5d-26d5feecb4a7", "ReserveCode1": "iflow", "ContentPropagator": "iflow", "PropagateID": "iflow", "ReserveCode2": "iflow"}' name="AIGC"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Prisma 概览介绍 - 下一代 TypeScript/Node.js ORM</title>
+<!-- 外部资源引入 -->
+<link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<script src="https://g.alicdn.com/code/lib/tailwindcss-browser/4.1.11/index.global.min.js"></script>
+<script src="https://g.alicdn.com/code/lib/mermaid/11.5.0/mermaid.min.js"></script>
+<script src="https://g.alicdn.com/code/lib/Chart.js/4.4.1/chart.umd.min.js"></script>
+<!-- 字体引入 -->
+<link href="https://fonts.font.im/css?family=Noto+Serif+SC:wght@400;500;600;700&amp;family=Noto+Sans+SC:wght@300;400;500;700&amp;display=swap" rel="stylesheet"/>
+<style>
+        /* 自定义样式 */
+        body {
+            font-family: 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            color: #333333;
+        }
+        
+        .code-font {
+            font-family: 'Fira Code', 'JetBrains Mono', monospace;
+        }
+        
+        .hero-gradient {
+            background: linear-gradient(135deg, rgba(0, 111, 238, 0.9) 0%, rgba(0, 91, 196, 0.8) 100%);
+        }
+        
+        .section-divider {
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #006FEE, transparent);
+        }
+        
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #006FEE, #005BC4);
+        }
+        
+        /* 动画效果 */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .animate-fade-in-up {
+            animation: fadeInUp 0.6s ease-out;
+        }
+    </style>
+
+    <meta name="description" content="心流是一款AI助手，帮助你高效获取知识，无论是日常娱乐生活百科还是专业学术论文知识，都可以轻松解答，让你快速进入心流状态，让知识随心流动！">
+    <meta name="keywords" content="Iflow,flow,心流,大语言模型,自然语言处理,人工智能大模型,AI聊天机器人,AI聊天,AI创作,AI聊天,AI助手,高效写作,AI搜索,AI问答,论文检索,AI论文阅读,沉静式阅读">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Prisma 概览介绍 - 下一代 TypeScript/Node.js ORM · 心流AI助手 | 让知识随心流动">
+    <meta property="og:site_name" content="心流AI助手"/>
+    <meta property="og:url" content="http://cloud.iflow.cn/sites/Z0FBQUFBQnBDQVpBd1A2aC1BM3RqVmVhbWpVbDVIRnRkemhydHJPOXhCM18xRWlXOU0xZV9RS1VVTE5TSGxKVlRjSWZGZXFQTlktZGwzSXFGcnJYN3JEVHdHeU9XTklULTh0SUFfSDJ3MGNxVGI4UkF3bVNzTXZTRlI2a0RQWElxYm51WlFSTzlfU1I">
+    <meta property="og:description" content="Prisma 概览介绍 - 下一代 TypeScript/Node.js ORM">
+    <meta property="og:image" content="https://img.alicdn.com/imgextra/i4/O1CN01VFxaDc1s3EZKig0PM_!!6000000005710-0-tps-300-300.jpg">
+    <link rel="shortcut icon" type="image/png" href="https://img.alicdn.com/imgextra/i4/O1CN01yBfg3x1iNi4YggwIt_!!6000000004401-2-tps-72-72.png">
+    <link rel="icon" type="image/png" href="https://img.alicdn.com/imgextra/i4/O1CN01yBfg3x1iNi4YggwIt_!!6000000004401-2-tps-72-72.png"/>
+    <style>.flowchart{margin:'0 auto'}</style>
+    <meta name="aplus-core" content="aplus.js" />
+
+<script>
+  (function(w, d, s, q) {
+    w[q] = w[q] || [];
+    var f = d.getElementsByTagName(s)[0],j = d.createElement(s);
+    j.async = true;
+    j.id = 'beacon-aplus';
+    j.setAttribute('exparams','aplus&sidx=aplusSidex&ckx=aplusCkx');
+    j.src = "//g.alicdn.com/alilog/mlog/aplus_v2.js";
+    j.crossorigin = 'anonymous';
+    f.parentNode.insertBefore(j, f);
+  })(window, document, 'script', 'aplus_queue');
+</script>
+<script src="//g.alicdn.com/aes/??tracker/3.3.13/index.js,tracker-plugin-pv/3.0.6/index.js,tracker-plugin-event/3.0.0/index.js,tracker-plugin-jserror/3.0.3/index.js,tracker-plugin-resourceError/3.0.4/index.js,tracker-plugin-perf/3.1.2/index.js,tracker-plugin-eventTiming/3.0.0/index.js"></script>
+<script>
+const aes = new AES({
+  pid: "QNxFeG",
+  user_type: "101",
+  uid: "",
+  username: ""
+});
+const plugins = aes.use([AESPluginPV,AESPluginEvent,AESPluginJSError,AESPluginResourceError,AESPluginPerf,AESPluginEventTiming])
+</script>
+    
+
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        const btnEle = document.getElementById('jump_to_index');
+        if (navigator?.userAgent && navigator?.userAgent?.includes('XinLiuApp')) {
+          btnEle.style.display = 'none';
+        }
+      });
+    </script>
+</head>
+<body class="bg-white text-gray-900 antialiased">
+<!-- 导航栏 -->
+<nav class="sticky top-0 bg-white border-b border-gray-200 z-40 backdrop-blur-sm shadow-sm">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex justify-between items-center h-16">
+<div class="flex items-center">
+<span class="text-2xl font-bold text-blue-600">Prisma</span>
+<span class="ml-2 text-gray-600">概览介绍</span>
+</div>
+<!-- 桌面导航 -->
+<div class="hidden md:flex space-x-8">
+<a class="text-gray-700 hover:text-blue-600 transition-colors" href="#concept">核心概念</a>
+<a class="text-gray-700 hover:text-blue-600 transition-colors" href="#features">核心特点</a>
+<a class="text-gray-700 hover:text-blue-600 transition-colors" href="#components">三大组件</a>
+<a class="text-gray-700 hover:text-blue-600 transition-colors" href="#quickstart">快速入门</a>
+<a class="text-gray-700 hover:text-blue-600 transition-colors" href="#security">安全实践</a>
+<a class="text-gray-700 hover:text-blue-600 transition-colors" href="#scenarios">适用场景</a>
+</div>
+<!-- 移动端菜单按钮 -->
+<div class="md:hidden">
+<button class="text-gray-700 hover:text-blue-600" id="mobile-menu-button">
+<i class="fas fa-bars text-xl"></i>
+</button>
+</div>
+</div>
+</div>
+<!-- 移动端菜单 -->
+<div class="hidden md:hidden bg-white border-t border-gray-200" id="mobile-menu">
+<div class="px-4 py-4 space-y-4">
+<a class="block text-gray-700 hover:text-blue-600" href="#concept">核心概念</a>
+<a class="block text-gray-700 hover:text-blue-600" href="#features">核心特点</a>
+<a class="block text-gray-700 hover:text-blue-600" href="#components">三大组件</a>
+<a class="block text-gray-700 hover:text-blue-600" href="#quickstart">快速入门</a>
+<a class="block text-gray-700 hover:text-blue-600" href="#security">安全实践</a>
+<a class="block text-gray-700 hover:text-blue-600" href="#scenarios">适用场景</a>
+</div>
+</div>
+</nav>
+<!-- Hero Section -->
+<section class="relative bg-gray-900 text-white min-h-[500px] flex items-center">
+<div class="absolute inset-0 bg-cover bg-center opacity-20" style="background-image: url('./images/prisma-hero-bg.jpg')"></div>
+<div class="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center">
+<h1 class="text-4xl md:text-5xl font-bold mb-6 animate-fade-in-up">
+                Prisma：下一代 TypeScript ORM
+            </h1>
+<p class="text-xl md:text-2xl text-gray-200 mb-8 max-w-3xl mx-auto animate-fade-in-up">
+                类型安全、开发高效、数据库访问从未如此简单
+            </p>
+<div class="text-lg text-gray-300 mb-10 animate-fade-in-up">
+<p>专为 TypeScript/Node.js 开发者设计的现代化数据库工具包</p>
+<p>解决传统 ORM 痛点，提供极致开发体验</p>
+</div>
+<div class="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in-up">
+<a class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-md font-medium transition-colors" href="#quickstart">
+<i class="fas fa-rocket mr-2"></i>快速开始
+                </a>
+<a class="border border-white text-white hover:bg-white hover:text-gray-900 px-8 py-3 rounded-md font-medium transition-colors" href="https://www.prisma.io/docs" target="_blank">
+<i class="fas fa-book mr-2"></i>官方文档
+                </a>
+</div>
+</div>
+</section>
+<!-- Section 1: Prisma 核心概念与定位 -->
+<section class="py-16 px-4 bg-white" id="concept">
+<div class="max-w-4xl mx-auto">
+<h2 class="text-2xl md:text-3xl font-bold text-gray-900 mb-8">Prisma 核心概念与定位</h2>
+<div class="space-y-8">
+<!-- 什么是Prisma -->
+<div class="bg-blue-50 rounded-xl p-6 border-l-4 border-blue-500" style="opacity: 1 !important;">
+<h3 class="text-xl font-semibold text-blue-800 mb-4 flex items-center">
+<i class="fas fa-database mr-3 text-blue-600"></i>Prisma 是什么
+                </h3>
+<p class="text-gray-800 mb-4">
+                    Prisma 是一个现代的 TypeScript/Node.js ORM(对象关系映射)工具，它就像应用程序和数据库之间的智能助手，帮助开发者更安全、高效地管理数据。
+                </p>
+</div>
+<!-- 核心定位 -->
+<div class="grid md:grid-cols-3 gap-6 mb-8" style="opacity: 1 !important;">
+<div class="bg-white rounded-xl p-6 shadow-md border border-gray-200" style="opacity: 1 !important;">
+<div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mb-4">
+<i class="fas fa-sync-alt text-blue-600"></i>
+</div>
+<h4 class="text-lg font-semibold text-gray-900 mb-3">数据映射新模式</h4>
+<p class="text-gray-700">采用 Data Mapper 模式，将应用模型与数据库表结构解耦</p>
+</div>
+<div class="bg-white rounded-xl p-6 shadow-md border border-gray-200" style="opacity: 1 !important;">
+<div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mb-4">
+<i class="fas fa-shield-alt text-green-600"></i>
+</div>
+<h4 class="text-lg font-semibold text-gray-900 mb-3">类型安全优先</h4>
+<p class="text-gray-700">提供全类型安全的数据访问层，让错误在编译阶段就能被发现</p>
+</div>
+<div class="bg-white rounded-xl p-6 shadow-md border border-gray-200" style="opacity: 1 !important;">
+<div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mb-4">
+<i class="fas fa-wrench text-purple-600"></i>
+</div>
+<h4 class="text-lg font-semibold text-gray-900 mb-3">解决传统痛点</h4>
+<p class="text-gray-700">解决了传统ORM在复杂查询和类型安全性方面的常见问题</p>
+</div>
+</div>
+<!-- 为什么学习Prisma -->
+<div class="bg-gray-50 rounded-xl p-6" style="opacity: 1 !important;">
+<h3 class="text-xl font-semibold text-gray-900 mb-6 flex items-center">
+<i class="fas fa-graduation-cap mr-3 text-blue-600"></i>为什么初学者应该学习Prisma
+                </h3>
+<div class="space-y-4">
+<div class="flex items-start" style="opacity: 1 !important;">
+<div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center mt-1 mr-4 flex-shrink-0">
+<i class="fas fa-bug text-blue-600 text-sm"></i>
+</div>
+<div>
+<h4 class="font-semibold text-gray-900 mb-1">减少数据库错误</h4>
+<p class="text-gray-700">通过强类型检查在代码编写阶段就能发现潜在问题</p>
+</div>
+</div>
+<div class="flex items-start" style="opacity: 1 !important;">
+<div class="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center mt-1 mr-4 flex-shrink-0">
+<i class="fas fa-bolt text-green-600 text-sm"></i>
+</div>
+<div>
+<h4 class="font-semibold text-gray-900 mb-1">提高开发效率</h4>
+<p class="text-gray-700">自动生成客户端代码，减少重复性工作</p>
+</div>
+</div>
+<div class="flex items-start" style="opacity: 1 !important;">
+<div class="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center mt-1 mr-4 flex-shrink-0">
+<i class="fas fa-project-diagram text-purple-600 text-sm"></i>
+</div>
+<div>
+<h4 class="font-semibold text-gray-900 mb-1">直观的数据建模</h4>
+<p class="text-gray-700">使用简洁的声明式语法定义数据模型，易于理解</p>
+</div>
+</div>
+</div>
+</div>
+<!-- 版本信息和代码示例 -->
+<div class="grid md:grid-cols-2 gap-6" style="opacity: 1 !important;">
+<div class="bg-white rounded-xl p-6 shadow-md border border-gray-200" style="opacity: 1 !important;">
+<h3 class="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+<i class="fas fa-code-branch mr-2 text-blue-600"></i>版本信息
+                    </h3>
+<p class="text-gray-700">
+                        Prisma v5.0于2023年10月发布，带来了多项性能改进和功能增强，是目前最稳定可靠的版本。
+                    </p>
+<p class="text-gray-700 mt-3">
+                        Prisma 特别适合需要频繁修改数据模型或重视类型安全的项目，拥有活跃的开源社区和完善的文档支持。
+                    </p>
+</div>
+<div class="bg-slate-50 rounded-xl p-6 overflow-hidden" style="opacity: 1 !important;">
+<h3 class="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+<i class="fas fa-code mr-2 text-blue-600"></i>代码示例
+                    </h3>
+<div class="relative group">
+<pre class="bg-slate-100 rounded-lg p-4 overflow-x-auto text-sm code-font"><code class="text-gray-800">// Prisma 数据模型定义示例
+model User {
+  id    Int     @id @default(autoincrement())
+  name  String
+  email String  @unique
+}
+
+// 使用自动生成的客户端进行查询
+const users = await prisma.user.findMany()</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section><section class="py-16 px-4 bg-gray-50" id="features">
+<div class="max-w-4xl mx-auto">
+<h2 class="text-2xl md:text-3xl font-bold text-gray-900 mb-8">核心特点详解与对比</h2>
+<div class="space-y-8">
+<!-- 类型安全部分 -->
+<div class="bg-white rounded-xl p-6 shadow-lg border border-gray-200" style="opacity: 1 !important;">
+<div class="flex items-center mb-4">
+<div class="feature-icon rounded-full flex items-center justify-center mr-4">
+<i class="fas fa-shield-alt text-white text-xl"></i>
+</div>
+<h3 class="text-xl md:text-2xl font-bold text-gray-900">类型安全(Type Safety)</h3>
+</div>
+<p class="text-gray-700 mb-4">Prisma通过<strong class="text-blue-600">模式优先</strong>的工作流实现了端到端的类型安全，解决了传统ORM在TypeScript开发中的痛点。</p>
+<div class="grid md:grid-cols-2 gap-6 mb-6">
+<div>
+<h4 class="text-lg font-semibold text-gray-800 mb-3">关键优势</h4>
+<ul class="space-y-2 text-gray-700">
+<li class="flex items-start">
+<i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+<span>自动从Prisma Schema生成TypeScript类型</span>
+</li>
+<li class="flex items-start">
+<i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+<span>编译时捕获字段拼写错误和类型不匹配</span>
+</li>
+<li class="flex items-start">
+<i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+<span>完整的IDE智能提示支持(VS Code等)</span>
+</li>
+</ul>
+</div>
+<div class="flex justify-center" style="opacity: 1 !important;">
+<img alt="Prisma类型安全机制示意图" class="rounded-lg shadow-md w-full h-auto object-cover" src="images/prisma_type_safety.jpg"/>
+</div>
+</div>
+<div class="bg-slate-50 rounded-lg p-4 overflow-x-auto mb-4">
+<pre class="code-font text-sm"><code class="text-gray-800">// 自动类型推导示例 - 错误会在编译时被发现
+const user = await prisma.user.create({
+  data: { 
+    name: "Alice",
+    email: "alice@prisma.io"
+    // 缺少必填字段或类型错误会直接报错
+  }
+});</code></pre>
+</div>
+<h4 class="text-lg font-semibold text-gray-800 mb-3">与传统ORM对比</h4>
+<div class="overflow-x-auto">
+<table class="min-w-full divide-y divide-gray-200">
+<thead class="bg-gray-100">
+<tr>
+<th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">特性</th>
+<th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">Prisma</th>
+<th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">Sequelize</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-gray-200">
+<tr>
+<td class="px-4 py-3 text-sm text-gray-800">类型生成</td>
+<td class="px-4 py-3 text-sm text-green-600 font-medium">✅ 自动从schema生成</td>
+<td class="px-4 py-3 text-sm text-red-600 font-medium">❌ 需手动定义接口</td>
+</tr>
+<tr class="bg-gray-50">
+<td class="px-4 py-3 text-sm text-gray-800">错误发现</td>
+<td class="px-4 py-3 text-sm text-blue-600 font-medium">⚡ 编译时检查</td>
+<td class="px-4 py-3 text-sm text-yellow-600 font-medium">⚠️ 运行时才能发现</td>
+</tr>
+<tr>
+<td class="px-4 py-3 text-sm text-gray-800">IDE支持</td>
+<td class="px-4 py-3 text-sm text-blue-600 font-medium">🔍 完整字段补全</td>
+<td class="px-4 py-3 text-sm text-gray-600 font-medium">🖥️ 有限支持</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- 查询构建器部分 -->
+<div class="bg-white rounded-xl p-6 shadow-lg border border-gray-200" style="opacity: 1 !important;">
+<div class="flex items-center mb-4">
+<div class="feature-icon rounded-full flex items-center justify-center mr-4">
+<i class="fas fa-code text-white text-xl"></i>
+</div>
+<h3 class="text-xl md:text-2xl font-bold text-gray-900">查询构建器(Query Builder)</h3>
+</div>
+<p class="text-gray-700 mb-6">基于模型自动生成CRUD方法，显著减少样板代码。</p>
+<div class="grid md:grid-cols-2 gap-6 mb-6">
+<div>
+<h4 class="text-lg font-semibold text-gray-800 mb-3">查询示例对比</h4>
+<div class="bg-slate-50 rounded-lg p-4 mb-4">
+<h5 class="text-sm font-semibold text-blue-600 mb-2">Prisma简洁语法</h5>
+<pre class="code-font text-xs"><code class="text-gray-800">await prisma.post.findMany({
+  where: { author: { name: "Alice" } },
+  include: { comments: true }
+})</code></pre>
+</div>
+<div class="bg-slate-50 rounded-lg p-4">
+<h5 class="text-sm font-semibold text-gray-600 mb-2">Sequelize等效代码</h5>
+<pre class="code-font text-xs"><code class="text-gray-800">Post.findAll({
+  include: [{
+    model: User,
+    where: { name: "Alice" }
+  }, {
+    model: Comment
+  }]
+})</code></pre>
+</div>
+</div>
+<div class="flex justify-center" style="opacity: 1 !important;">
+<img alt="Prisma查询构建器工作流程" class="rounded-lg shadow-md w-full h-auto object-cover" src="images/prisma_query_builder.jpg"/>
+</div>
+</div>
+<h4 class="text-lg font-semibold text-gray-800 mb-3">原生SQL支持</h4>
+<div class="bg-slate-50 rounded-lg p-4 overflow-x-auto">
+<pre class="code-font text-sm"><code class="text-gray-800">// 类型安全的原生查询
+const result = await prisma.$queryRawTyped<user[]>`
+  SELECT * FROM User WHERE email = ${email}
+`;</user[]></code></pre>
+</div>
+</div>
+<!-- 实时数据库同步部分 -->
+<div class="bg-white rounded-xl p-6 shadow-lg border border-gray-200" style="opacity: 1 !important;">
+<div class="flex items-center mb-4">
+<div class="feature-icon rounded-full flex items-center justify-center mr-4">
+<i class="fas fa-bolt text-white text-xl"></i>
+</div>
+<h3 class="text-xl md:text-2xl font-bold text-gray-900">实时数据库同步</h3>
+</div>
+<p class="text-gray-700 mb-4">(v1.34+引入)适用于实时应用场景</p>
+<div class="bg-slate-50 rounded-lg p-4 overflow-x-auto mb-6">
+<pre class="code-font text-sm"><code class="text-gray-800">// 订阅用户创建事件
+prisma.$subscribe.user({
+  mutation_in: ['CREATED'],
+  node: { email_contains: 'gmail' }
+}).node()</code></pre>
+</div>
+<h4 class="text-lg font-semibold text-gray-800 mb-3">版本演进</h4>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+<div class="bg-blue-50 rounded-lg p-4 text-center">
+<div class="text-2xl font-bold text-blue-600 mb-2">v1.34</div>
+<p class="text-sm text-gray-700">🆕 引入实时订阅</p>
+</div>
+<div class="bg-green-50 rounded-lg p-4 text-center">
+<div class="text-2xl font-bold text-green-600 mb-2">v5.0</div>
+<p class="text-sm text-gray-700">🛡️ 增强类型系统</p>
+</div>
+<div class="bg-purple-50 rounded-lg p-4 text-center">
+<div class="text-2xl font-bold text-purple-600 mb-2">v6.0</div>
+<p class="text-sm text-gray-700">🔐 TypedSQL安全查询</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section><section class="py-16 px-4 bg-white" id="components">
+<div class="max-w-4xl mx-auto">
+<h2 class="text-2xl md:text-3xl font-bold text-gray-900 mb-8">三大组件功能解析</h2>
+<div class="grid md:grid-cols-3 gap-6 mb-10">
+<!-- Prisma Client -->
+<div class="bg-blue-50 rounded-xl p-6 border-l-4 border-blue-500" style="opacity: 1 !important;">
+<div class="flex items-center mb-4">
+<div class="w-12 h-12 bg-blue-600 rounded-lg flex items-center justify-center mr-4">
+<i class="fas fa-code text-white text-xl"></i>
+</div>
+<h3 class="text-xl font-semibold text-gray-900">Prisma Client</h3>
+</div>
+<p class="text-gray-800 mb-4">类型安全的查询构建器，自动生成TypeScript类型定义</p>
+<ul class="space-y-2 text-gray-700">
+<li class="flex items-center"><i class="fas fa-check-circle text-green-500 mr-2"></i>自动类型定义生成</li>
+<li class="flex items-center"><i class="fas fa-check-circle text-green-500 mr-2"></i>链式查询构建API</li>
+<li class="flex items-center"><i class="fas fa-check-circle text-green-500 mr-2"></i>SQL注入防护机制</li>
+</ul>
+</div>
+<!-- Prisma Migrate -->
+<div class="bg-green-50 rounded-xl p-6 border-l-4 border-green-500" style="opacity: 1 !important;">
+<div class="flex items-center mb-4">
+<div class="w-12 h-12 bg-green-600 rounded-lg flex items-center justify-center mr-4">
+<i class="fas fa-database text-white text-xl"></i>
+</div>
+<h3 class="text-xl font-semibold text-gray-900">Prisma Migrate</h3>
+</div>
+<p class="text-gray-800 mb-4">声明式数据迁移工具，安全可靠的数据库变更管理</p>
+<ul class="space-y-2 text-gray-700">
+<li class="flex items-center"><i class="fas fa-check-circle text-green-500 mr-2"></i>避免手动SQL编写</li>
+<li class="flex items-center"><i class="fas fa-check-circle text-green-500 mr-2"></i>自动回滚脚本</li>
+<li class="flex items-center"><i class="fas fa-check-circle text-green-500 mr-2"></i>版本历史追踪</li>
+</ul>
+</div>
+<!-- Prisma Studio -->
+<div class="bg-purple-50 rounded-xl p-6 border-l-4 border-purple-500" style="opacity: 1 !important;">
+<div class="flex items-center mb-4">
+<div class="w-12 h-12 bg-purple-600 rounded-lg flex items-center justify-center mr-4">
+<i class="fas fa-eye text-white text-xl"></i>
+</div>
+<h3 class="text-xl font-semibold text-gray-900">Prisma Studio</h3>
+</div>
+<p class="text-gray-800 mb-4">可视化数据库GUI工具，直观的数据浏览与编辑</p>
+<ul class="space-y-2 text-gray-700">
+<li class="flex items-center"><i class="fas fa-check-circle text-green-500 mr-2"></i>实时数据浏览</li>
+<li class="flex items-center"><i class="fas fa-check-circle text-green-500 mr-2"></i>可视化CRUD操作</li>
+<li class="flex items-center"><i class="fas fa-check-circle text-green-500 mr-2"></i>多环境切换支持</li>
+</ul>
+</div>
+</div>
+<!-- Prisma Client 详解 -->
+<div class="bg-white rounded-xl p-6 shadow-lg border border-gray-200 mb-8" style="opacity: 1 !important;">
+<h3 class="text-xl font-semibold text-gray-900 mb-4 flex items-center">
+<i class="fas fa-code text-blue-600 mr-2"></i>Prisma Client - 类型安全查询构建器
+            </h3>
+<p class="text-gray-800 mb-4">自动生成TypeScript类型定义，提供直观的链式查询API，内置安全查询机制防止SQL注入攻击。</p>
+<div class="bg-slate-50 rounded-lg p-4 overflow-x-auto mb-4">
+<pre class="code-font text-sm text-gray-800"><code>// 安全查询示例 - 类型安全的用户查询
+const safeUser = await prisma.user.findUnique({
+  where: { 
+    email: "user@example.com" // 编译器会自动验证字段有效性
+  }
+});</code></pre>
+</div>
+<div class="flex justify-center mb-4" style="opacity: 1 !important;">
+<img alt="Prisma Client生成与使用流程" class="rounded-lg shadow-md w-full max-w-md h-auto" src="images/prisma_client.png"/>
+</div>
+</div>
+<!-- Prisma Migrate 详解 -->
+<div class="bg-white rounded-xl p-6 shadow-lg border border-gray-200 mb-8" style="opacity: 1 !important;">
+<h3 class="text-xl font-semibold text-gray-900 mb-4 flex items-center">
+<i class="fas fa-database text-green-600 mr-2"></i>Prisma Migrate - 声明式数据迁移工具
+            </h3>
+<div class="bg-gray-100 rounded-lg p-4 mb-4">
+<h4 class="font-semibold text-gray-800 mb-3">工作流程</h4>
+<ol class="list-decimal list-inside space-y-2 text-gray-700">
+<li><span class="font-medium">定义模型</span>：编辑`schema.prisma`文件</li>
+<li><span class="font-medium">生成迁移</span>：`npx prisma migrate dev --name init`</li>
+<li><span class="font-medium">应用变更</span>：自动同步到数据库</li>
+</ol>
+</div>
+<div class="bg-amber-50 border-l-4 border-amber-500 p-4 rounded-r-md mb-4">
+<h4 class="font-semibold text-amber-800 mb-2 flex items-center">
+<i class="fas fa-shield-alt mr-2"></i>安全特性
+                </h4>
+<ul class="space-y-1 text-amber-700">
+<li class="flex items-center"><i class="fas fa-lock mr-2"></i>避免手动编写SQL，降低人为错误风险</li>
+<li class="flex items-center"><i class="fas fa-undo mr-2"></i>自动回滚脚本，迁移失败时可恢复</li>
+<li class="flex items-center"><i class="fas fa-history mr-2"></i>版本历史追踪，所有变更记录在`/migrations`目录</li>
+</ul>
+</div>
+<div class="flex justify-center" style="opacity: 1 !important;">
+<img alt="Prisma Migrate工作流程图" class="rounded-lg shadow-md w-full max-w-md h-auto" src="images/prisma_migrate.png"/>
+</div>
+</div>
+<!-- Prisma Studio 详解 -->
+<div class="bg-white rounded-xl p-6 shadow-lg border border-gray-200 mb-8" style="opacity: 1 !important;">
+<h3 class="text-xl font-semibold text-gray-900 mb-4 flex items-center">
+<i class="fas fa-eye text-purple-600 mr-2"></i>Prisma Studio - 可视化数据库GUI (v3.0+)
+            </h3>
+<div class="grid md:grid-cols-2 gap-6 mb-4">
+<div>
+<h4 class="font-semibold text-gray-800 mb-3">主要功能</h4>
+<ul class="space-y-2 text-gray-700">
+<li class="flex items-center"><i class="fas fa-eye text-purple-500 mr-2"></i>实时数据浏览：直观查看表结构和数据关系</li>
+<li class="flex items-center"><i class="fas fa-edit text-purple-500 mr-2"></i>可视化编辑：支持CRUD操作</li>
+<li class="flex items-center"><i class="fas fa-exchange-alt text-purple-500 mr-2"></i>多环境切换：开发/生产环境隔离</li>
+</ul>
+</div>
+<div class="bg-red-50 border-l-4 border-red-500 p-4 rounded-r-md">
+<h4 class="font-semibold text-red-800 mb-2 flex items-center">
+<i class="fas fa-exclamation-triangle mr-2"></i>安全建议
+                    </h4>
+<ul class="space-y-1 text-red-700">
+<li class="flex items-center"><i class="fas fa-ban mr-2"></i>生产环境建议禁用</li>
+<li class="flex items-center"><i class="fas fa-laptop mr-2"></i>仅限本地开发使用</li>
+</ul>
+</div>
+</div>
+</div>
+<!-- 协同工作流程 -->
+<div class="bg-blue-50 rounded-xl p-6 border border-blue-200 mb-8" style="opacity: 1 !important;">
+<h3 class="text-xl font-semibold text-gray-900 mb-4 flex items-center">
+<i class="fas fa-sync-alt text-blue-600 mr-2"></i>协同工作流程
+            </h3>
+<div class="grid md:grid-cols-4 gap-4 text-center">
+<div class="bg-white rounded-lg p-4 shadow-sm" style="opacity: 1 !important;">
+<div class="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-2">
+<i class="fas fa-pencil-alt text-white"></i>
+</div>
+<p class="text-sm font-medium text-gray-800">设计阶段</p>
+<p class="text-xs text-gray-600">用Migrate定义数据结构</p>
+</div>
+<div class="bg-white rounded-lg p-4 shadow-sm" style="opacity: 1 !important;">
+<div class="w-10 h-10 bg-green-600 rounded-full flex items-center justify-center mx-auto mb-2">
+<i class="fas fa-code text-white"></i>
+</div>
+<p class="text-sm font-medium text-gray-800">开发阶段</p>
+<p class="text-xs text-gray-600">通过Client执行应用查询</p>
+</div>
+<div class="bg-white rounded-lg p-4 shadow-sm" style="opacity: 1 !important;">
+<div class="w-10 h-10 bg-purple-600 rounded-full flex items-center justify-center mx-auto mb-2">
+<i class="fas fa-check-circle text-white"></i>
+</div>
+<p class="text-sm font-medium text-gray-800">验证阶段</p>
+<p class="text-xs text-gray-600">使用Studio检查数据</p>
+</div>
+<div class="bg-white rounded-lg p-4 shadow-sm" style="opacity: 1 !important;">
+<div class="w-10 h-10 bg-amber-600 rounded-full flex items-center justify-center mx-auto mb-2">
+<i class="fas fa-redo text-white"></i>
+</div>
+<p class="text-sm font-medium text-gray-800">迭代循环</p>
+<p class="text-xs text-gray-600">持续优化数据模型</p>
+</div>
+</div>
+</div>
+<!-- 安全最佳实践 -->
+<div class="bg-red-50 rounded-xl p-6 border-l-4 border-red-500" style="opacity: 1 !important;">
+<h3 class="text-xl font-semibold text-gray-900 mb-4 flex items-center">
+<i class="fas fa-shield-alt text-red-600 mr-2"></i>安全最佳实践
+            </h3>
+<div class="grid md:grid-cols-2 gap-4">
+<div class="bg-white rounded-lg p-4" style="opacity: 1 !important;">
+<div class="flex items-center mb-2">
+<i class="fas fa-key text-green-600 mr-2"></i>
+<span class="font-medium text-gray-800">始终使用参数化查询</span>
+</div>
+<p class="text-sm text-gray-700">Prisma默认强制参数化查询，有效防止SQL注入攻击</p>
+</div>
+<div class="bg-white rounded-lg p-4" style="opacity: 1 !important;">
+<div class="flex items-center mb-2">
+<i class="fas fa-ban text-red-600 mr-2"></i>
+<span class="font-medium text-gray-800">生产环境禁用Studio访问</span>
+</div>
+<p class="text-sm text-gray-700">避免生产环境数据暴露风险，仅限开发环境使用</p>
+</div>
+<div class="bg-white rounded-lg p-4" style="opacity: 1 !important;">
+<div class="flex items-center mb-2">
+<i class="fas fa-history text-blue-600 mr-2"></i>
+<span class="font-medium text-gray-800">定期检查迁移历史记录</span>
+</div>
+<p class="text-sm text-gray-700">确保数据库变更历史清晰可追溯，便于问题排查</p>
+</div>
+<div class="bg-white rounded-lg p-4" style="opacity: 1 !important;">
+<div class="flex items-center mb-2">
+<i class="fas fa-search text-purple-600 mr-2"></i>
+<span class="font-medium text-gray-800">审核生成的SQL语句</span>
+</div>
+<p class="text-sm text-gray-700">通过`--verbose`参数查看实际执行的SQL，确保符合预期</p>
+</div>
+</div>
+</div>
+<!-- 架构图 -->
+<div class="mt-8 bg-gray-100 rounded-xl p-6" style="opacity: 1 !important;">
+<h3 class="text-lg font-semibold text-gray-900 mb-4 text-center">Prisma 整体架构</h3>
+<div class="flex justify-center" style="opacity: 1 !important;">
+<img alt="Prisma整体架构流程图" class="rounded-lg shadow-md w-full max-w-2xl h-auto" src="images/prisma_architecture.png"/>
+</div>
+</div>
+</div>
+</section><section class="py-16 px-4 bg-gray-50" id="quickstart">
+<div class="max-w-4xl mx-auto">
+<h2 class="text-2xl md:text-3xl font-bold text-gray-900 mb-8">快速入门分步指南</h2>
+<div class="space-y-8">
+<!-- 环境准备 -->
+<div class="bg-white rounded-xl p-6 shadow-lg border border-gray-200" style="opacity: 1 !important;">
+<h3 class="text-xl md:text-2xl font-semibold text-gray-900 mb-4 flex items-center">
+<i class="fas fa-cogs text-blue-600 mr-3"></i>1. 环境准备
+                </h3>
+<div class="space-y-6">
+<div style="opacity: 1 !important;">
+<h4 class="text-lg font-medium text-gray-800 mb-3 flex items-center">
+<i class="fas fa-folder-plus text-green-600 mr-2"></i>1.1 创建TypeScript项目
+                        </h4>
+<div class="bg-slate-50 rounded-lg p-4 overflow-x-auto">
+<pre class="code-font text-sm text-gray-800"><code>mkdir hello-prisma
+cd hello-prisma
+npm init -y
+npm install typescript tsx @types/node --save-dev
+npx tsc --init</code></pre>
+</div>
+</div>
+<div style="opacity: 1 !important;">
+<h4 class="text-lg font-medium text-gray-800 mb-3 flex items-center">
+<i class="fas fa-download text-blue-600 mr-2"></i>1.2 安装Prisma CLI
+                        </h4>
+<div class="bg-slate-50 rounded-lg p-4 overflow-x-auto">
+<pre class="code-font text-sm text-gray-800"><code>npm install prisma --save-dev
+npx prisma init --datasource-provider sqlite</code></pre>
+</div>
+</div>
+</div>
+</div>
+<!-- 数据建模与迁移 -->
+<div class="bg-white rounded-xl p-6 shadow-lg border border-gray-200" style="opacity: 1 !important;">
+<h3 class="text-xl md:text-2xl font-semibold text-gray-900 mb-4 flex items-center">
+<i class="fas fa-database text-purple-600 mr-3"></i>2. 数据建模与迁移
+                </h3>
+<div class="space-y-6">
+<div style="opacity: 1 !important;">
+<h4 class="text-lg font-medium text-gray-800 mb-3 flex items-center">
+<i class="fas fa-pencil-alt text-amber-600 mr-2"></i>2.1 定义数据模型
+                        </h4>
+<p class="text-gray-700 mb-3">在<code class="bg-blue-100 text-blue-800 px-2 py-1 rounded">prisma/schema.prisma</code>文件中定义User模型：</p>
+<div class="bg-slate-50 rounded-lg p-4 overflow-x-auto">
+<pre class="code-font text-sm text-gray-800"><code>model User {
+  id    Int     @id @default(autoincrement())
+  email String  @unique
+  name  String?
+}</code></pre>
+</div>
+</div>
+<div style="opacity: 1 !important;">
+<h4 class="text-lg font-medium text-gray-800 mb-3 flex items-center">
+<i class="fas fa-arrow-right text-green-600 mr-2"></i>2.2 执行数据库迁移
+                        </h4>
+<div class="bg-slate-50 rounded-lg p-4 overflow-x-auto">
+<pre class="code-font text-sm text-gray-800"><code>npx prisma migrate dev --name init</code></pre>
+</div>
+</div>
+</div>
+</div>
+<!-- 使用Prisma Client -->
+<div class="bg-white rounded-xl p-6 shadow-lg border border-gray-200" style="opacity: 1 !important;">
+<h3 class="text-xl md:text-2xl font-semibold text-gray-900 mb-4 flex items-center">
+<i class="fas fa-code text-red-600 mr-3"></i>3. 使用Prisma Client
+                </h3>
+<div style="opacity: 1 !important;">
+<h4 class="text-lg font-medium text-gray-800 mb-3 flex items-center">
+<i class="fas fa-user-plus text-indigo-600 mr-2"></i>3.1 创建用户记录
+                    </h4>
+<div class="bg-slate-50 rounded-lg p-4 overflow-x-auto">
+<pre class="code-font text-sm text-gray-800"><code>import { PrismaClient } from '@prisma/client'
+const prisma = new PrismaClient()
+
+async function main() {
+  const user = await prisma.user.create({
+    data: {
+      name: 'Alice',
+      email: 'alice@prisma.io',
+    },
+  })
+  console.log(user)
+}
+
+main()
+  .catch(e =&gt; {
+    throw e
+  })
+  .finally(async () =&gt; {
+    await prisma.$disconnect()
+  })</code></pre>
+</div>
+</div>
+</div>
+<!-- 安全实践 -->
+<div class="bg-blue-50 rounded-xl p-6 border-l-4 border-blue-500" style="opacity: 1 !important;">
+<h3 class="text-xl md:text-2xl font-semibold text-gray-900 mb-4 flex items-center">
+<i class="fas fa-shield-alt text-blue-600 mr-3"></i>4. 安全实践
+                </h3>
+<ul class="space-y-3 text-gray-700">
+<li class="flex items-start">
+<i class="fas fa-check-circle text-green-500 mt-1 mr-3"></i>
+<span>Prisma自动使用参数化查询防止SQL注入攻击</span>
+</li>
+<li class="flex items-start">
+<i class="fas fa-check-circle text-green-500 mt-1 mr-3"></i>
+<span>所有数据库操作都通过类型安全的Prisma Client进行</span>
+</li>
+<li class="flex items-start">
+<i class="fas fa-check-circle text-green-500 mt-1 mr-3"></i>
+<span>确保使用最新版本的Prisma以获取安全更新</span>
+</li>
+</ul>
+</div>
+<!-- 系统要求 -->
+<div class="bg-amber-50 rounded-xl p-6 border-l-4 border-amber-500" style="opacity: 1 !important;">
+<h3 class="text-xl md:text-2xl font-semibold text-gray-900 mb-4 flex items-center">
+<i class="fas fa-info-circle text-amber-600 mr-3"></i>5. 系统要求
+                </h3>
+<ul class="space-y-3 text-gray-700">
+<li class="flex items-start">
+<i class="fas fa-server text-gray-600 mt-1 mr-3"></i>
+<span><strong>Node.js</strong>: 最低v16.13.0，推荐v18.8+</span>
+</li>
+<li class="flex items-start">
+<i class="fas fa-code text-gray-600 mt-1 mr-3"></i>
+<span><strong>TypeScript</strong> (可选): v4.7.x或更高</span>
+</li>
+<li class="flex items-start">
+<i class="fas fa-database text-gray-600 mt-1 mr-3"></i>
+<span><strong>数据库支持</strong>: PostgreSQL 9.6+, SQLite, MySQL, CockroachDB</span>
+</li>
+</ul>
+<div class="mt-4 p-4 bg-amber-100 rounded-lg border border-amber-200">
+<p class="text-amber-800 flex items-start">
+<i class="fas fa-exclamation-triangle text-amber-600 mt-1 mr-3"></i>
+<span><strong>注意</strong>: Node.js v16.x将在Prisma 6中被移除支持，生产环境建议使用Node.js LTS版本</span>
+</p>
+</div>
+</div>
+</div>
+</div>
+</section><section class="py-16 px-4 bg-white" id="security">
+<div class="max-w-4xl mx-auto">
+<h2 class="text-2xl md:text-3xl font-bold text-gray-900 mb-8">安全实践与版本注意事项</h2>
+<div class="space-y-8">
+<!-- 安全防护机制 -->
+<div class="bg-blue-50 rounded-xl p-6 border-l-4 border-blue-500" style="opacity: 1 !important;">
+<h3 class="text-xl md:text-2xl font-semibold text-gray-900 mb-4">安全防护机制</h3>
+<div class="space-y-6">
+<div class="bg-white rounded-lg p-5 shadow-sm border border-gray-200" style="opacity: 1 !important;">
+<h4 class="text-lg font-semibold text-gray-900 mb-3">自动参数化查询</h4>
+<p class="text-gray-800 mb-4">Prisma v5 默认使用参数化查询来防止SQL注入攻击。所有用户输入都会自动转义处理，确保数据库操作的安全性。</p>
+<div class="bg-slate-50 rounded-lg p-4 overflow-x-auto">
+<pre class="text-sm code-font text-gray-800"><code>// 安全示例：自动参数化
+const user = await prisma.user.findFirst({
+  where: { email: userInputEmail }
+});</code></pre>
+</div>
+</div>
+<div class="bg-white rounded-lg p-5 shadow-sm border border-gray-200" style="opacity: 1 !important;">
+<h4 class="text-lg font-semibold text-gray-900 mb-3">输入验证建议</h4>
+<p class="text-gray-800 mb-4">虽然Prisma提供基础防护，但仍建议开发者进行额外验证，实现双重安全保障。</p>
+<div class="bg-slate-50 rounded-lg p-4 overflow-x-auto">
+<pre class="text-sm code-font text-gray-800"><code>// 推荐做法：双重验证
+if (!isValidEmail(userInputEmail)) {
+  throw new Error('Invalid email format');
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<!-- 版本安全特性 -->
+<div class="bg-amber-50 rounded-xl p-6 border-l-4 border-amber-500" style="opacity: 1 !important;">
+<h3 class="text-xl md:text-2xl font-semibold text-gray-900 mb-4">版本安全特性</h3>
+<div class="bg-white rounded-lg p-5 shadow-sm border border-gray-200" style="opacity: 1 !important;">
+<h4 class="text-lg font-semibold text-gray-900 mb-3">v5.7.0 重要更新</h4>
+<ul class="space-y-2 text-gray-800">
+<li class="flex items-start">
+<i class="fas fa-shield-alt text-blue-500 mt-1 mr-3"></i>
+<span>增强PostgreSQL连接安全性</span>
+</li>
+<li class="flex items-start">
+<i class="fas fa-bug text-red-500 mt-1 mr-3"></i>
+<span>修复潜在的查询注入漏洞</span>
+</li>
+<li class="flex items-start">
+<i class="fas fa-filter text-green-500 mt-1 mr-3"></i>
+<span>改进敏感数据日志过滤</span>
+</li>
+</ul>
+</div>
+<div class="bg-white rounded-lg p-5 shadow-sm border border-gray-200 mt-4" style="opacity: 1 !important;">
+<h4 class="text-lg font-semibold text-gray-900 mb-3">兼容性警告</h4>
+<div class="text-gray-800">
+<p class="mb-2"><strong>PostgreSQL驱动要求：</strong></p>
+<ul class="list-disc list-inside pl-4 space-y-1">
+<li>v5.x要求PostgreSQL 12+版本</li>
+<li>使用pg驱动v8.8+以获得最佳安全性</li>
+</ul>
+</div>
+</div>
+</div>
+<!-- 敏感数据处理 -->
+<div class="bg-green-50 rounded-xl p-6 border-l-4 border-green-500" style="opacity: 1 !important;">
+<h3 class="text-xl md:text-2xl font-semibold text-gray-900 mb-4">敏感数据处理最佳实践</h3>
+<div class="bg-slate-50 rounded-lg p-4 overflow-x-auto mb-4">
+<pre class="text-sm code-font text-gray-800"><code>// 安全实践：选择性查询
+const user = await prisma.user.findUnique({
+  where: { id: 1 },
+  select: { 
+    name: true,
+    email: true
+    // 明确排除密码等敏感字段
+  }
+});</code></pre>
+</div>
+<div class="bg-red-50 rounded-lg p-4 border border-red-200" style="opacity: 1 !important;">
+<div class="flex items-start">
+<i class="fas fa-exclamation-triangle text-red-600 text-xl mt-1 mr-3"></i>
+<div>
+<h4 class="text-lg font-semibold text-red-800 mb-2">重要安全提示</h4>
+<ul class="list-disc list-inside text-red-700 space-y-1">
+<li>始终遵循最小权限原则，数据库用户应仅具有必要权限</li>
+<li>生产环境应使用v5.7.0+版本</li>
+<li>定期检查<a class="text-blue-600 hover:text-blue-800 underline" href="https://github.com/prisma/prisma/security" target="_blank">Prisma安全公告</a></li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<!-- 版本安全时间线 -->
+<div class="bg-purple-50 rounded-xl p-6 border-l-4 border-purple-500" style="opacity: 1 !important;">
+<h3 class="text-xl md:text-2xl font-semibold text-gray-900 mb-6">版本安全时间线</h3>
+<div class="space-y-4">
+<div class="bg-white rounded-lg p-5 shadow-sm border border-gray-200" style="opacity: 1 !important;">
+<h4 class="text-lg font-semibold text-gray-900 mb-2">v5.0.0 (2023年发布)</h4>
+<ul class="text-gray-800 space-y-1">
+<li>初始版本包含基础安全防护</li>
+<li>引入增强型查询验证</li>
+</ul>
+</div>
+<div class="bg-white rounded-lg p-5 shadow-sm border border-gray-200" style="opacity: 1 !important;">
+<h4 class="text-lg font-semibold text-gray-900 mb-2">v5.7.0 (2023年11月)</h4>
+<ul class="text-gray-800 space-y-1">
+<li>新增<code class="bg-gray-100 px-1 py-0.5 rounded text-sm">nativeDistinct</code>安全实现</li>
+<li>修复Netlify部署环境的安全配置</li>
+</ul>
+</div>
+<div class="bg-white rounded-lg p-5 shadow-sm border border-gray-200" style="opacity: 1 !important;">
+<h4 class="text-lg font-semibold text-gray-900 mb-2">v5.22.0 (2025年2月)</h4>
+<ul class="text-gray-800 space-y-1">
+<li>改进Go客户端的TLS配置</li>
+<li>增强枚举类型的安全性</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section><section class="py-16 px-4 bg-gray-50" id="scenarios">
+<div class="max-w-4xl mx-auto">
+<h2 class="text-2xl md:text-3xl font-bold text-gray-900 mb-8">Prisma 适用场景与学习建议</h2>
+<div class="grid md:grid-cols-2 gap-8 mb-12">
+<div class="bg-white rounded-xl p-6 shadow-lg border border-gray-200" style="opacity: 1 !important;">
+<div class="flex items-center mb-4">
+<div class="feature-icon rounded-full flex items-center justify-center text-white mr-4">
+<i class="fas fa-rocket text-2xl"></i>
+</div>
+<h3 class="text-xl font-semibold text-gray-900">开发效率提升</h3>
+</div>
+<p class="text-gray-700 mb-4">自动生成的类型安全查询构建器可减少 40% 的重复代码量<sup class="citation" title="How to Get Started with Prisma ORM for Node.js and ...: This post was updated on 9 August 2023 to use the latest stable version of Postgres v15 (from v13) a"><a href="https://blog.appsignal.com/2021/07/21/how-to-get-started-with-prisma-orm-for-nodejs-and-postgresql.html" target="_blank">[1]</a></sup></p>
+<p class="text-gray-700">编译时类型检查可预防 90% 以上的数据库操作错误<sup class="citation" title="A Beginner's Guide to Prisma: The Modern ORM for ...: npx prisma generateThis will read your schema.prisma file to understand the db structure and auto ge"><a href="https://medium.com/@kavinduworks63/a-beginners-guide-to-prisma-the-modern-orm-for-databases-cb55262e9b60" target="_blank">[2]</a></sup></p>
+</div>
+<div class="bg-white rounded-xl p-6 shadow-lg border border-gray-200" style="opacity: 1 !important;">
+<div class="flex items-center mb-4">
+<div class="feature-icon rounded-full flex items-center justify-center text-white mr-4">
+<i class="fas fa-puzzle-piece text-2xl"></i>
+</div>
+<h3 class="text-xl font-semibold text-gray-900">一站式解决方案</h3>
+</div>
+<p class="text-gray-700">集成迁移工具(Schema Migrate)和可视化界面(Prisma Studio)，提供完整的数据库管理体验</p>
+</div>
+</div>
+<h3 class="text-xl md:text-2xl font-semibold text-gray-900 mb-6">典型应用场景</h3>
+<div class="grid md:grid-cols-3 gap-6 mb-12">
+<div class="bg-blue-50 rounded-xl p-6 border-l-4 border-blue-500" style="opacity: 1 !important;">
+<div class="flex items-center mb-4">
+<i class="fas fa-code text-blue-600 text-xl mr-3"></i>
+<h4 class="text-lg font-semibold text-gray-900">全栈 TypeScript 应用</h4>
+</div>
+<p class="text-gray-700">前端(React/Vue/Angular) + 后端(Node.js)统一类型系统，提供无缝的开发体验</p>
+<p class="text-sm text-gray-600 mt-2">示例：Next.js全栈应用的数据层实现</p>
+</div>
+<div class="bg-amber-50 rounded-xl p-6 border-l-4 border-amber-500" style="opacity: 1 !important;">
+<div class="flex items-center mb-4">
+<i class="fas fa-bolt text-amber-600 text-xl mr-3"></i>
+<h4 class="text-lg font-semibold text-gray-900">快速原型开发</h4>
+</div>
+<p class="text-gray-700">内置数据建模工具加速MVP开发，快速验证产品想法</p>
+<p class="text-sm text-gray-600 mt-2">案例：初创公司两周内完成用户系统搭建<sup class="citation" title="A Beginner's Guide to Using Prisma with a Next.js Application: npx prisma migrate dev --name initYou'll be prompted to confirm – just hit Enter. Once it's all done"><a href="https://dev.to/rhythmsaha/a-beginners-guide-to-using-prisma-with-a-nextjs-application-27di" target="_blank">[3]</a></sup></p>
+</div>
+<div class="bg-green-50 rounded-xl p-6 border-l-4 border-green-500" style="opacity: 1 !important;">
+<div class="flex items-center mb-4">
+<i class="fas fa-users text-green-600 text-xl mr-3"></i>
+<h4 class="text-lg font-semibold text-gray-900">团队协作项目</h4>
+</div>
+<p class="text-gray-700">Schema文件作为单一数据源，确保团队成员编写一致的数据库查询</p>
+<p class="text-sm text-gray-600 mt-2">避免SQL查询不一致导致的维护问题</p>
+</div>
+</div>
+<div class="flex flex-col md:flex-row gap-6 mb-8" style="opacity: 1 !important;">
+<div class="md:w-1/2" style="opacity: 1 !important;">
+<img alt="Prisma与TypeScript集成开发示例" class="rounded-lg shadow-md w-full h-auto" src="images/prisma-typescript.jpg"/>
+</div>
+<div class="md:w-1/2" style="opacity: 1 !important;">
+<img alt="Prisma Studio数据库管理界面" class="rounded-lg shadow-md w-full h-auto" src="images/prisma-studio.jpg"/>
+</div>
+</div>
+<h3 class="text-xl md:text-2xl font-semibold text-gray-900 mb-6">学习路径建议</h3>
+<div class="grid md:grid-cols-3 gap-6 mb-8">
+<div class="bg-white rounded-xl p-6 shadow-lg border border-gray-200" style="opacity: 1 !important;">
+<div class="flex items-center mb-4">
+<i class="fas fa-graduation-cap text-blue-600 text-xl mr-3"></i>
+<h4 class="text-lg font-semibold text-gray-900">入门路径</h4>
+</div>
+<ul class="text-gray-700 space-y-2">
+<li class="flex items-start">
+<i class="fas fa-arrow-right text-blue-500 mt-1 mr-2 text-sm"></i>
+<span>快速入门指南（含5分钟沙盒环境）</span>
+</li>
+<li class="flex items-start">
+<i class="fas fa-arrow-right text-blue-500 mt-1 mr-2 text-sm"></i>
+<span>交互式教程：Learn Prisma in 30分钟</span>
+</li>
+</ul>
+</div>
+<div class="bg-white rounded-xl p-6 shadow-lg border border-gray-200" style="opacity: 1 !important;">
+<div class="flex items-center mb-4">
+<i class="fas fa-chart-line text-green-600 text-xl mr-3"></i>
+<h4 class="text-lg font-semibold text-gray-900">进阶学习</h4>
+</div>
+<ul class="text-gray-700 space-y-2">
+<li class="flex items-start">
+<i class="fas fa-arrow-right text-green-500 mt-1 mr-2 text-sm"></i>
+<span>官方示例项目库（GitHub）</span>
+</li>
+<li class="flex items-start">
+<i class="fas fa-arrow-right text-green-500 mt-1 mr-2 text-sm"></i>
+<span>每周技术直播（Discord社区）</span>
+</li>
+</ul>
+</div>
+<div class="bg-white rounded-xl p-6 shadow-lg border border-gray-200" style="opacity: 1 !important;">
+<div class="flex items-center mb-4">
+<i class="fas fa-exclamation-triangle text-amber-600 text-xl mr-3"></i>
+<h4 class="text-lg font-semibold text-gray-900">避坑指南</h4>
+</div>
+<ul class="text-gray-700 space-y-2">
+<li class="flex items-start">
+<i class="fas fa-arrow-right text-amber-500 mt-1 mr-2 text-sm"></i>
+<span>版本兼容性检查表（Node.js ≥18）</span>
+</li>
+<li class="flex items-start">
+<i class="fas fa-arrow-right text-amber-500 mt-1 mr-2 text-sm"></i>
+<span>常见错误解决方案汇总</span>
+</li>
+</ul>
+</div>
+</div>
+<div class="bg-blue-50 rounded-xl p-6 border-l-4 border-blue-500" style="opacity: 1 !important;">
+<h4 class="text-lg font-semibold text-gray-900 mb-4">下一步行动：</h4>
+<div class="grid md:grid-cols-3 gap-4">
+<a class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-3 rounded-md text-center transition-colors" href="https://sandbox.prisma.io" target="_blank">
+<i class="fas fa-play-circle mr-2"></i>官方沙盒体验
+                </a>
+<a class="bg-white border border-blue-600 text-blue-600 hover:bg-blue-50 px-4 py-3 rounded-md text-center transition-colors" href="https://www.prisma.io/docs/getting-started" target="_blank">
+<i class="fas fa-download mr-2"></i>下载入门套件
+                </a>
+<a class="bg-gray-800 hover:bg-gray-900 text-white px-4 py-3 rounded-md text-center transition-colors" href="https://discord.gg/prisma" target="_blank">
+<i class="fab fa-discord mr-2"></i>加入社区
+                </a>
+</div>
+</div>
+</div>
+</section>
+<!-- 页脚 -->
+<footer class="bg-gray-900 text-white py-12 px-4">
+<div class="max-w-6xl mx-auto text-center">
+<div class="flex flex-col md:flex-row justify-between items-center mb-8">
+<div class="mb-6 md:mb-0">
+<span class="text-2xl font-bold text-blue-400">Prisma</span>
+<span class="text-gray-400 ml-2">概览介绍</span>
+</div>
+<div class="flex space-x-6">
+<a class="text-gray-400 hover:text-white transition-colors" href="https://www.prisma.io" target="_blank">
+<i class="fas fa-globe text-xl"></i>
+</a>
+<a class="text-gray-400 hover:text-white transition-colors" href="https://github.com/prisma/prisma" target="_blank">
+<i class="fab fa-github text-xl"></i>
+</a>
+<a class="text-gray-400 hover:text-white transition-colors" href="https://discord.gg/prisma" target="_blank">
+<i class="fab fa-discord text-xl"></i>
+</a>
+
+    <div id="jump_to_index" class="flex flex-col items-center m-7">
+        <a href="https://iflow.cn/?appCode=MANUS_CHATBOT" target="_blank" class="text-center text-gray-400 underline">
+            由心流高级研究模式生成｜点击立即体验
+        </a>
+    </div></div>
+</div>
+<p class="text-gray-400 text-sm">
+                © 2025 Prisma 概览介绍页面。基于 Prisma v5.x 官方文档制作。
+            </p>
+<p class="text-gray-400 text-sm mt-2">
+                本页面仅作为学习参考，详细信息请查阅
+                <a class="text-blue-400 hover:text-blue-300" href="https://www.prisma.io/docs" target="_blank">官方文档</a>
+</p>
+</div>
+</footer>
+<!-- 引入 JavaScript -->
+<script src="./js/main.js"></script>
+</body>
+</html>

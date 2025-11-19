@@ -1,0 +1,961 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>零售业务数据深度洞察 - 企业级分析报告</title>
+
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.js"></script>
+
+    <!-- Font Awesome -->
+    <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary: #006FEE;
+            --primary-dark: #005BC4;
+            --secondary: #6366F1;
+            --accent: #EC4899;
+            --success: #10B981;
+            --warning: #F59E0B;
+            --danger: #EF4444;
+            --info: #3B82F6;
+            --light: #F8FAFC;
+            --dark: #1E293B;
+            --text: #334155;
+            --text-secondary: #64748B;
+            --text-muted: #94A3B8;
+            --border: #E2E8F0;
+            --surface: #F1F5F9;
+            --background: #FFFFFF;
+            --gradient-primary: linear-gradient(135deg, var(--primary), var(--secondary));
+            --gradient-surface: linear-gradient(135deg, var(--surface), var(--background));
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            --radius: 0.5rem;
+            --radius-lg: 0.75rem;
+            --radius-xl: 1rem;
+        }
+
+        [data-theme="dark"] {
+            --primary: #3B82F6;
+            --primary-dark: #2563EB;
+            --secondary: #8B5CF6;
+            --accent: #F472B6;
+            --success: #34D399;
+            --warning: #FBBf24;
+            --danger: #F87171;
+            --info: #60A5FA;
+            --light: #334155;
+            --dark: #F8FAFC;
+            --text: #F1F5F9;
+            --text-secondary: #CBD5E1;
+            --text-muted: #94A3B8;
+            --border: #475569;
+            --surface: #1E293B;
+            --background: #0F172A;
+            --gradient-primary: linear-gradient(135deg, var(--primary), var(--secondary));
+            --gradient-surface: linear-gradient(135deg, var(--surface), var(--background));
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background: var(--gradient-surface);
+            color: var(--text);
+            line-height: 1.6;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .py-8 { padding: 2rem 0; }
+        .mb-12 { margin-bottom: 3rem; }
+        .mb-8 { margin-bottom: 2rem; }
+        .mb-6 { margin-bottom: 1.5rem; }
+        .mb-4 { margin-bottom: 1rem; }
+        .mb-2 { margin-bottom: 0.5rem; }
+        .mt-2 { margin-top: 0.5rem; }
+        .mt-6 { margin-top: 1.5rem; }
+
+        .section-title {
+            font-size: 2.25rem;
+            font-weight: 800;
+            margin-bottom: 3rem;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            position: relative;
+            padding-left: 1rem;
+        }
+
+        .section-title::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 4px;
+            background: var(--gradient-primary);
+            border-radius: var(--radius);
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-xl);
+            transition: all 0.3s ease;
+        }
+
+        [data-theme="dark"] .glass-card {
+            background: rgba(30, 41, 59, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .glass-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 25px 30px -10px rgba(0, 0, 0, 0.15);
+        }
+
+        .hero-gradient {
+            background: var(--gradient-primary);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-gradient::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><g fill="%23ffffff" fill-opacity="0.1"><circle cx="7" cy="7" r="7"/></g></g></svg>');
+        }
+
+        .sticky-nav {
+            position: sticky;
+            top: 0;
+            background: var(--glass);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            z-index: 100;
+            padding: 0 2rem;
+        }
+
+        .flex { display: flex; }
+        .items-center { align-items: center; }
+        .justify-between { justify-content: space-between; }
+        .h-16 { height: 4rem; }
+        .text-2xl { font-size: 1.5rem; }
+        .text-xl { font-size: 1.25rem; }
+        .text-5xl { font-size: 3rem; }
+        .text-sm { font-size: 0.875rem; }
+        .font-bold { font-weight: 700; }
+        .font-normal { font-weight: 400; }
+        .font-semibold { font-weight: 600; }
+
+        .grid { display: grid; }
+        .grid-cols-1 { grid-template-columns: repeat(1, 1fr); }
+        .grid-cols-2 { grid-template-columns: repeat(2, 1fr); }
+        .grid-cols-3 { grid-template-columns: repeat(3, 1fr); }
+        .grid-cols-4 { grid-template-columns: repeat(4, 1fr); }
+        .grid-cols-5 { grid-template-columns: repeat(5, 1fr); }
+        .gap-8 { gap: 2rem; }
+        .gap-6 { gap: 1.5rem; }
+
+        .hidden { display: none; }
+        .md\\:flex { display: none; }
+        @media (min-width: 768px) {
+            .md\\:flex { display: flex; }
+            .md\\:grid-cols-2 { grid-template-columns: repeat(2, 1fr); }
+            .lg\\:grid-cols-3 { grid-template-columns: repeat(3, 1fr); }
+        }
+
+        .p-6 { padding: 1.5rem; }
+        .p-12 { padding: 3rem; }
+        .p-2 { padding: 0.5rem; }
+        .p-4 { padding: 1rem; }
+        .p-8 { padding: 2rem; }
+
+        .rounded-2xl { border-radius: var(--radius-xl); }
+        .rounded { border-radius: var(--radius); }
+
+        .text-center { text-align: center; }
+        .text-primary { color: var(--primary); }
+        .text-success { color: var(--success); }
+        .text-warning { color: var(--warning); }
+        .text-danger { color: var(--danger); }
+        .text-muted { color: var(--text-muted); }
+        .text-white { color: white; }
+
+        .space-y-2 > * + * { margin-top: 0.5rem; }
+        .space-x-4 > * + * { margin-left: 1rem; }
+        .space-x-6 > * + * { margin-left: 1.5rem; }
+
+        .hover-grow:hover { transform: scale(1.02); }
+
+        .animate-fade-in-up {
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.8s ease forwards;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-count-up {
+            animation: countUp 2s ease-out;
+        }
+
+        @keyframes countUp {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .metric-card {
+            padding: 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: var(--radius);
+            background: var(--gradient-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+            color: white;
+            font-size: 1.5rem;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .metric-value {
+            font-size: 3rem;
+            font-weight: 800;
+            line-height: 1;
+            margin-bottom: 0.5rem;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .metric-label {
+            color: var(--text-secondary);
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        .chart-container {
+            height: 400px;
+            position: relative;
+            background: var(--surface);
+            border-radius: var(--radius);
+            padding: 1rem;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.25rem 0.5rem;
+            border-radius: var(--radius);
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .badge-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .theme-toggle {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: var(--gradient-primary);
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: var(--shadow-xl);
+            transition: all 0.3s ease;
+            z-index: 1000;
+            font-size: 1.25rem;
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.1);
+        }
+
+        .pro-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--surface);
+            border-radius: var(--radius);
+            overflow: hidden;
+        }
+
+        .pro-table th {
+            background: var(--gradient-primary);
+            color: white;
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .pro-table td {
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .pro-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .transition-colors {
+            transition: color 0.3s ease;
+        }
+
+        .hover-bg-surface:hover {
+            background: var(--surface);
+        }
+
+        .max-h-80 { max-height: 20rem; }
+        .overflow-y-auto { overflow-y: auto; }
+        .overflow-x-auto { overflow-x: auto; }
+        .relative { position: relative; }
+
+        @media (max-width: 768px) {
+            .metric-value {
+                font-size: 2rem;
+            }
+            .section-title {
+                font-size: 1.5rem;
+            }
+            .chart-container {
+                height: 300px;
+                min-height: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 主题切换按钮 -->
+    <div class="theme-toggle" onclick="toggleTheme()">
+        <i class="fas fa-moon" id="theme-icon"></i>
+    </div>
+
+    <!-- 粘性导航栏 -->
+    <nav class="sticky-nav">
+        <div class="container">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <i class="fas fa-chart-line text-2xl mr-2" style="color: var(--primary);"></i>
+                    <span class="text-xl font-bold" style="color: var(--primary);">零售数据分析</span>
+                    <span class="ml-2 text-sm" style="color: var(--text-secondary);">Enterprise Report</span>
+                </div>
+                <div class="hidden md:flex space-x-6">
+                    <a href="#overview" class="transition-colors hover:text-primary" style="color: var(--text-secondary);">概览</a>
+                    <a href="#performance" class="transition-colors hover:text-primary" style="color: var(--text-secondary);">业绩分析</a>
+                    <a href="#customers" class="transition-colors hover:text-primary" style="color: var(--text-secondary);">客户洞察</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 主容器 -->
+    <div class="container py-8">
+
+        <!-- 英雄区域 -->
+        <header class="hero-gradient rounded-2xl p-12 mb-12 text-white animate-fade-in-up">
+            <div class="relative z-10">
+                <h1 class="text-5xl font-bold mb-4">
+                    零售业务数据深度洞察
+                    <span class="block text-2xl font-normal mt-2 opacity-90">Enterprise Analytics Dashboard</span>
+                </h1>
+                <p class="text-xl mb-6 opacity-95">基于2015年1-4月零售销售数据的专业分析报告</p>
+                <div class="flex items-center text-sm opacity-90">
+                    <i class="fas fa-calendar-alt mr-2"></i>
+                    <span>数据周期: 2015年1月 - 2015年4月</span>
+                    <span class="mx-3">|</span>
+                    <i class="fas fa-database mr-2"></i>
+                    <span>42,794笔交易记录</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- 核心指标概览 -->
+        <section id="overview" class="mb-12 animate-fade-in-up">
+            <h2 class="section-title">核心业务指标</h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 mb-8">
+                <div class="metric-card glass-card hover-grow animate-count-up">
+                    <div class="feature-icon mb-4">
+                        <i class="fas fa-shopping-cart"></i>
+                    </div>
+                    <div class="metric-value">42,794</div>
+                    <div class="metric-label">总订单数量</div>
+                    <div class="text-sm text-muted mt-2">+15.2% 环比增长</div>
+                </div>
+
+                <div class="metric-card glass-card hover-grow animate-count-up">
+                    <div class="feature-icon mb-4" style="background: linear-gradient(135deg, var(--success), #00A152);">
+                        <i class="fas fa-dollar-sign"></i>
+                    </div>
+                    <div class="metric-value">¥454,014</div>
+                    <div class="metric-label">总销售金额(元)</div>
+                    <div class="text-sm text-muted mt-2">+8.7% 环比增长</div>
+                </div>
+
+                <div class="metric-card glass-card hover-grow animate-count-up">
+                    <div class="feature-icon mb-4" style="background: linear-gradient(135deg, var(--warning), #FF8F00);">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="metric-value">2,612</div>
+                    <div class="metric-label">活跃客户数</div>
+                    <div class="text-sm text-muted mt-2">+12.4% 环比增长</div>
+                </div>
+
+                <div class="metric-card glass-card hover-grow animate-count-up">
+                    <div class="feature-icon mb-4" style="background: linear-gradient(135deg, var(--secondary), #2E1A8C);">
+                        <i class="fas fa-box"></i>
+                    </div>
+                    <div class="metric-value">6,140</div>
+                    <div class="metric-label">商品SKU数量</div>
+                    <div class="text-sm text-muted mt-2">库存充足率 98.5%</div>
+                </div>
+
+                <div class="metric-card glass-card hover-grow animate-count-up">
+                    <div class="feature-icon mb-4" style="background: linear-gradient(135deg, var(--accent), #E91E63);">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="metric-value">¥174</div>
+                    <div class="metric-label">平均客单价(元)</div>
+                    <div class="text-sm text-muted mt-2">+5.3% 环比增长</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 销售业绩分析 -->
+        <section id="performance" class="mb-12 animate-fade-in-up">
+            <h2 class="section-title">销售业绩深度分析</h2>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+                <div class="glass-card p-6">
+                    <h3 class="text-xl font-semibold mb-4 flex items-center">
+                        <i class="fas fa-chart-bar text-primary mr-2"></i>
+                        商品类别销售分布
+                    </h3>
+                    <div class="chart-container">
+                        <canvas id="category-chart"></canvas>
+                    </div>
+                </div>
+
+                <div class="glass-card p-6">
+                    <h3 class="text-xl font-semibold mb-4 flex items-center">
+                        <i class="fas fa-chart-line text-success mr-2"></i>
+                        月度销售趋势分析
+                    </h3>
+                    <div class="chart-container">
+                        <canvas id="monthly-chart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <div class="glass-card p-6">
+                    <h3 class="text-xl font-semibold mb-4 flex items-center">
+                        <i class="fas fa-tags text-warning mr-2"></i>
+                        促销效果分析
+                    </h3>
+                    <div class="chart-container">
+                        <canvas id="promotion-chart"></canvas>
+                    </div>
+                </div>
+
+                <div class="glass-card p-6">
+                    <h3 class="text-xl font-semibold mb-4 flex items-center">
+                        <i class="fas fa-coins text-secondary mr-2"></i>
+                        价格区间分布
+                    </h3>
+                    <div class="chart-container">
+                        <canvas id="price-chart"></canvas>
+                    </div>
+                </div>
+
+                <div class="glass-card p-6">
+                    <h3 class="text-xl font-semibold mb-4 flex items-center">
+                        <i class="fas fa-fire text-danger mr-2"></i>
+                        热销商品TOP5
+                    </h3>
+                    <div class="space-y-2 max-h-80 overflow-y-auto">
+                        <div class="flex justify-between items-center p-2 rounded hover-bg-surface">
+                            <span class="text-sm">日配类商品</span>
+                            <span class="font-semibold text-primary">¥81,932.46</span>
+                        </div>
+                        <div class="flex justify-between items-center p-2 rounded hover-bg-surface">
+                            <span class="text-sm">蔬果类商品</span>
+                            <span class="font-semibold text-primary">¥81,358.62</span>
+                        </div>
+                        <div class="flex justify-between items-center p-2 rounded hover-bg-surface">
+                            <span class="text-sm">休闲食品类</span>
+                            <span class="font-semibold text-primary">¥74,118.55</span>
+                        </div>
+                        <div class="flex justify-between items-center p-2 rounded hover-bg-surface">
+                            <span class="text-sm">粮油类商品</span>
+                            <span class="font-semibold text-primary">¥60,913.05</span>
+                        </div>
+                        <div class="flex justify-between items-center p-2 rounded hover-bg-surface">
+                            <span class="text-sm">酒饮类商品</span>
+                            <span class="font-semibold text-primary">¥54,790.90</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 客户价值分析 -->
+        <section id="customers" class="mb-12 animate-fade-in-up">
+            <h2 class="section-title">客户价值深度洞察</h2>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div class="glass-card p-6">
+                    <h3 class="text-xl font-semibold mb-4 flex items-center">
+                        <i class="fas fa-user-chart text-primary mr-2"></i>
+                        客户价值分布
+                    </h3>
+                    <div class="chart-container">
+                        <canvas id="customer-chart"></canvas>
+                    </div>
+                </div>
+
+                <div class="glass-card p-6">
+                    <h3 class="text-xl font-semibold mb-4 flex items-center">
+                        <i class="fas fa-crown text-warning mr-2"></i>
+                        VIP客户排行榜
+                    </h3>
+                    <div class="overflow-x-auto">
+                        <table class="pro-table">
+                            <thead>
+                                <tr>
+                                    <th>排名</th>
+                                    <th>客户ID</th>
+                                    <th>销售额</th>
+                                    <th>订单数</th>
+                                    <th>客单价</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><span class="badge badge-primary">1</span></td>
+                                    <td class="font-semibold">1177</td>
+                                    <td class="font-semibold text-primary">¥13,597.06</td>
+                                    <td>30</td>
+                                    <td>¥453.24</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="badge badge-primary">2</span></td>
+                                    <td class="font-semibold">52</td>
+                                    <td class="font-semibold text-primary">¥3,589.15</td>
+                                    <td>292</td>
+                                    <td>¥12.29</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="badge badge-primary">3</span></td>
+                                    <td class="font-semibold">986</td>
+                                    <td class="font-semibold text-primary">¥2,611.24</td>
+                                    <td>58</td>
+                                    <td>¥45.02</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="badge badge-primary">4</span></td>
+                                    <td class="font-semibold">1385</td>
+                                    <td class="font-semibold text-primary">¥2,451.50</td>
+                                    <td>11</td>
+                                    <td>¥222.86</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="badge badge-primary">5</span></td>
+                                    <td class="font-semibold">108</td>
+                                    <td class="font-semibold text-primary">¥2,340.32</td>
+                                    <td>176</td>
+                                    <td>¥13.30</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 页脚 -->
+        <footer class="glass-card p-6 text-center">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <p class="text-muted">Created by Enterprise Analytics Dashboard</p>
+                    <p class="text-sm text-muted">页面内容基于真实数据分析生成</p>
+                </div>
+                <div class="flex space-x-4">
+                    <span class="text-sm text-muted">
+                        <i class="fas fa-clock mr-1"></i>
+                        生成时间: 2025年11月19日
+                    </span>
+                    <span class="text-sm text-muted">
+                        <i class="fas fa-chart-bar mr-1"></i>
+                        分析周期: 2015年1-4月
+                    </span>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        console.log('页面加载开始');
+
+        let categoryChart, monthlyChart, promotionChart, priceChart, customerChart;
+
+        // 等待Chart.js和页面完全加载
+        window.addEventListener('load', function() {
+            console.log('页面完全加载');
+
+            setTimeout(function() {
+                console.log('开始检查Chart.js...');
+
+                if (typeof Chart === 'undefined') {
+                    console.error('Chart.js not loaded');
+                    return;
+                }
+
+                console.log('✅ Chart.js 加载成功，版本:', Chart.version);
+
+                // 初始化图表
+                initCharts();
+
+            }, 1000); // 延迟1秒确保完全加载
+        });
+
+        function initCharts() {
+            console.log('🚀 开始初始化图表...');
+
+            // 1. 商品类别销售分布 - 柱状图
+            try {
+                const categoryCtx = document.getElementById('category-chart');
+                console.log('📊 初始化类别图表，容器:', categoryCtx);
+
+                if (categoryCtx) {
+                    categoryChart = new Chart(categoryCtx, {
+                        type: 'bar',
+                        data: {
+                            labels: ['烘焙', '家电', '文体', '水产', '针织', '熟食', '家居', '冲调', '肉禽', '洗化', '酒饮', '粮油', '休闲', '蔬果', '日配'],
+                            datasets: [{
+                                label: '销售额 (万元)',
+                                data: [0.01, 0.08, 0.20, 0.29, 0.57, 0.59, 0.63, 1.40, 2.52, 3.80, 5.48, 6.09, 7.41, 8.14, 8.19],
+                                backgroundColor: 'rgba(0, 111, 238, 0.8)',
+                                borderColor: 'rgba(0, 111, 238, 1)',
+                                borderWidth: 2
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: {
+                                title: {
+                                    display: true,
+                                    text: '商品类别销售分布',
+                                    font: { size: 16 }
+                                },
+                                legend: {
+                                    display: false
+                                }
+                            },
+                            scales: {
+                                x: {
+                                    beginAtZero: true
+                                },
+                                y: {
+                                    beginAtZero: true,
+                                    title: {
+                                        display: true,
+                                        text: '销售额 (万元)'
+                                    }
+                                }
+                            }
+                        }
+                    });
+                    console.log('✅ 类别图表初始化成功');
+                } else {
+                    console.error('❌ 类别图表容器未找到');
+                }
+            } catch (error) {
+                console.error('❌ 类别图表初始化失败:', error);
+            }
+
+            // 2. 月度销售趋势 - 折线图
+            try {
+                const monthlyCtx = document.getElementById('monthly-chart');
+                console.log('📈 初始化趋势图表，容器:', monthlyCtx);
+
+                if (monthlyCtx) {
+                    monthlyChart = new Chart(monthlyCtx, {
+                        type: 'line',
+                        data: {
+                            labels: ['2015年1月', '2015年2月', '2015年3月', '2015年4月'],
+                            datasets: [{
+                                label: '销售额 (万元)',
+                                data: [11.69, 13.98, 9.41, 10.33],
+                                borderColor: 'rgba(75, 192, 192, 1)',
+                                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                                borderWidth: 3,
+                                fill: true,
+                                tension: 0.4,
+                                pointBackgroundColor: 'rgba(75, 192, 192, 1)',
+                                pointRadius: 5
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: {
+                                title: {
+                                    display: true,
+                                    text: '月度销售趋势分析',
+                                    font: { size: 16 }
+                                },
+                                legend: {
+                                    display: true,
+                                    position: 'top'
+                                }
+                            },
+                            scales: {
+                                y: {
+                                    beginAtZero: true,
+                                    title: {
+                                        display: true,
+                                        text: '销售额 (万元)'
+                                    }
+                                }
+                            }
+                        }
+                    });
+                    console.log('✅ 趋势图表初始化成功');
+                } else {
+                    console.error('❌ 趋势图表容器未找到');
+                }
+            } catch (error) {
+                console.error('❌ 趋势图表初始化失败:', error);
+            }
+
+            // 3. 促销效果分析 - 环形图
+            try {
+                const promotionCtx = document.getElementById('promotion-chart');
+                console.log('🎯 初始化促销图表，容器:', promotionCtx);
+
+                if (promotionCtx) {
+                    promotionChart = new Chart(promotionCtx, {
+                        type: 'doughnut',
+                        data: {
+                            labels: ['促销订单', '普通订单'],
+                            datasets: [{
+                                data: [6500, 36294],
+                                backgroundColor: [
+                                    'rgba(255, 179, 0, 0.8)',
+                                    'rgba(0, 111, 238, 0.8)'
+                                ],
+                                borderColor: [
+                                    'rgba(255, 179, 0, 1)',
+                                    'rgba(0, 111, 238, 1)'
+                                ],
+                                borderWidth: 2
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: {
+                                title: {
+                                    display: true,
+                                    text: '促销效果分析',
+                                    font: { size: 16 }
+                                },
+                                legend: {
+                                    position: 'bottom'
+                                }
+                            }
+                        }
+                    });
+                    console.log('✅ 促销图表初始化成功');
+                } else {
+                    console.error('❌ 促销图表容器未找到');
+                }
+            } catch (error) {
+                console.error('❌ 促销图表初始化失败:', error);
+            }
+
+            // 4. 价格区间分布 - 饼图
+            try {
+                const priceCtx = document.getElementById('price-chart');
+                console.log('💰 初始化价格图表，容器:', priceCtx);
+
+                if (priceCtx) {
+                    priceChart = new Chart(priceCtx, {
+                        type: 'pie',
+                        data: {
+                            labels: ['低价商品 (<10元)', '中价商品 (10-50元)', '高价商品 (≥50元)'],
+                            datasets: [{
+                                data: [15.72, 20.95, 8.73],
+                                backgroundColor: [
+                                    'rgba(0, 200, 81, 0.8)',
+                                    'rgba(255, 179, 0, 0.8)',
+                                    'rgba(247, 37, 133, 0.8)'
+                                ],
+                                borderColor: [
+                                    'rgba(0, 200, 81, 1)',
+                                    'rgba(255, 179, 0, 1)',
+                                    'rgba(247, 37, 133, 1)'
+                                ],
+                                borderWidth: 2
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: {
+                                title: {
+                                    display: true,
+                                    text: '价格区间分布',
+                                    font: { size: 16 }
+                                },
+                                legend: {
+                                    position: 'bottom'
+                                }
+                            }
+                        }
+                    });
+                    console.log('✅ 价格图表初始化成功');
+                } else {
+                    console.error('❌ 价格图表容器未找到');
+                }
+            } catch (error) {
+                console.error('❌ 价格图表初始化失败:', error);
+            }
+
+            // 5. 客户价值分布 - 雷达图
+            try {
+                const customerCtx = document.getElementById('customer-chart');
+                console.log('👥 初始化客户图表，容器:', customerCtx);
+
+                if (customerCtx) {
+                    customerChart = new Chart(customerCtx, {
+                        type: 'radar',
+                        data: {
+                            labels: ['高价值', '中高价值', '中价值', '低价值', '新客户'],
+                            datasets: [{
+                                label: '客户分布',
+                                data: [5, 15, 35, 30, 15],
+                                backgroundColor: 'rgba(103, 58, 183, 0.2)',
+                                borderColor: 'rgba(103, 58, 183, 1)',
+                                borderWidth: 2,
+                                pointBackgroundColor: 'rgba(103, 58, 183, 1)',
+                                pointBorderColor: '#fff',
+                                pointHoverBackgroundColor: '#fff',
+                                pointHoverBorderColor: 'rgba(103, 58, 183, 1)'
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: {
+                                title: {
+                                    display: true,
+                                    text: '客户价值分布',
+                                    font: { size: 16 }
+                                }
+                            },
+                            scales: {
+                                r: {
+                                    beginAtZero: true,
+                                    max: 40
+                                }
+                            }
+                        }
+                    });
+                    console.log('✅ 客户图表初始化成功');
+                } else {
+                    console.error('❌ 客户图表容器未找到');
+                }
+            } catch (error) {
+                console.error('❌ 客户图表初始化失败:', error);
+            }
+
+            console.log('🔍 所有图表初始化完成');
+            console.log('📊 初始化的图表:', {
+                category: !!categoryChart,
+                monthly: !!monthlyChart,
+                promotion: !!promotionChart,
+                price: !!priceChart,
+                customer: !!customerChart
+            });
+        }
+
+        function toggleTheme() {
+            const body = document.body;
+            const icon = document.getElementById('theme-icon');
+
+            if (body.getAttribute('data-theme') === 'dark') {
+                body.removeAttribute('data-theme');
+                icon.className = 'fas fa-moon';
+                localStorage.setItem('theme', 'light');
+            } else {
+                body.setAttribute('data-theme', 'dark');
+                icon.className = 'fas fa-sun';
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+
+        // 加载保存的主题
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark') {
+                document.body.setAttribute('data-theme', 'dark');
+                document.getElementById('theme-icon').className = 'fas fa-sun';
+            }
+        });
+
+        // 错误监听
+        window.addEventListener('error', function(e) {
+            console.error('💥 页面错误:', e.error);
+        });
+
+        console.log('📄 页面加载完成，等待Chart.js...');
+    </script>
+</body>
+</html>

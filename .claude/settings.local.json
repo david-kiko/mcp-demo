@@ -1,0 +1,23 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(claude mcp add:*)",
+      "mcp__k8s-mcp__apply_yaml",
+      "mcp__k8s-mcp__get_pods",
+      "mcp__k8s-mcp__kubectl",
+      "mcp__mcp-k8s__apply_yaml",
+      "mcp__mcp-k8s__get_pods",
+      "mcp__mcp-k8s__kubectl",
+      "mcp__mcp-rustfs__list_csv_files",
+      "mcp__mcp-rustfs__check_file_exists",
+      "mcp__mcp-rustfs__get_csv_columns",
+      "mcp__mcp-rustfs__list_buckets",
+      "mcp__mcp-rustfs__get_file_info",
+      "WebFetch(domain:cloud.iflow.cn)",
+      "Bash(python:*)",
+      "Bash(mkdir:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

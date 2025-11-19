@@ -1,0 +1,68 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ai-demo
+  namespace: default
+  labels:
+    app: ai-demo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ai-demo
+  template:
+    metadata:
+      labels:
+        app: ai-demo
+    spec:
+      containers:
+      - name: ai-demo
+        image: registry.opsman.top/kmai/ubuntu:22.04-v1
+        ports:
+        - containerPort: 22
+          protocol: TCP
+        - containerPort: 3000
+          protocol: TCP
+        resources:
+          requests:
+            memory: "4Gi"
+            cpu: "1024m"
+          limits:
+            memory: "4Gi"
+            cpu: "1024m"
+        livenessProbe:
+          tcpSocket:
+            port: 22
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          failureThreshold: 3
+        readinessProbe:
+          tcpSocket:
+            port: 22
+          initialDelaySeconds: 5
+          periodSeconds: 5
+          failureThreshold: 3
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ai-demo-service
+  namespace: default
+  labels:
+    app: ai-demo
+spec:
+  type: NodePort
+  selector:
+    app: ai-demo
+  ports:
+  - name: ssh
+    port: 22
+    targetPort: 22
+    nodePort: 31888
+    protocol: TCP
+  - name: web
+    port: 3000
+    targetPort: 3000
+    nodePort: 31889
+    protocol: TCP
+  externalTrafficPolicy: Cluster
