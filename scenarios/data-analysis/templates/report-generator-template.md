@@ -25,9 +25,9 @@ Read - file_path="report-prompt.md"
 - 业务场景背景
 
 ### 4. 生成HTML报告
-将报告保存到隐藏目录：
+将报告保存到生成文件目录（按年月分组）：
 ```bash
-Write - file_path=".reports/{task-name}-{timestamp}-report.html" - content="{HTML内容}"
+Write - file_path=".generated/reports/{YYYY-MM}/{task-name}-{timestamp}-report.html" - content="{HTML内容}"
 ```
 
 ## 报告命名规范
@@ -35,13 +35,19 @@ Write - file_path=".reports/{task-name}-{timestamp}-report.html" - content="{HTM
 - 示例：`demo-analysis-20251119-020000-report.html`
 
 ## 报告展示
-生成完成后：
-1. 提供报告文件路径
-2. 简要说明报告内容和特点
-3. 建议使用浏览器打开查看最佳效果
+生成完成后，按以下格式输出：
+```bash
+echo "✅ 报告生成完成！"
+echo "📊 报告标题：{报告标题}"
+echo "📁 完整路径：$(pwd)/.generated/reports/{YYYY-MM}/{task-name}-{timestamp}-report.html"
+echo "💡 使用方法：复制上述路径到浏览器地址栏中直接打开"
+echo ""
+echo "📋 报告内容：{简要说明报告主要内容}"
+echo "🎯 特色功能：{交互式图表、数据筛选、统计分析等}"
+```
 
 ## 注意事项
 1. **按需生成**：只有在用户明确要求时才生成
 2. **数据准确性**：确保所有数据和图表与原始分析结果一致
-3. **文件管理**：统一保存在.reports/目录中
+3. **文件管理**：统一保存在.generated/reports/目录中，按年月分组
 4. **内容完整性**：包含所有关键分析结果和业务洞察

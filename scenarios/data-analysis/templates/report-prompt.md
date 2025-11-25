@@ -77,7 +77,15 @@ css
   ## 网页格式要求
   - 使用CDN（jsdelivr）加载所需资源
   - 使用Tailwind CSS (使用CDN加速地址：https://unpkg.com/tailwindcss@2.2.19/dist/tailwind.min.css)提高代码效率
+  - 使用RemixIcon图标库：https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css
   - 使用CSS样式美化不同模块的样式，可以使用javascript来增强与用户的交互，使用Echart（使用CDN加速地址：https://cdn.jsdelivr.net/npm/echarts@5.6.0/dist/echarts.min.js）工具体现数据与数据变化趋势
+
+  ### 界面设计要求
+  - **统计卡片布局**：使用metric-card类和flex布局，而不是grid
+  - **卡片设计**：左侧有彩色边框，内容左右分布（左边文字，右边图标）
+  - **图标库**：统一使用RemixIcon而不是Font Awesome
+  - **整体布局**：简洁优雅，避免过度复杂的设计
+  - **响应式设计**：使用Tailwind CSS的响应式类，确保在各种设备上正常显示
   
   ### 图表渲染要求（重要）
   - **图表容器尺寸**：所有图表容器必须设置明确的尺寸，使用class="chart-container"并定义CSS样式：width: 100\%; height: 320px; min-height: 320px;

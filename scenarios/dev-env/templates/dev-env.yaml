@@ -1,0 +1,184 @@
+# 开发环境YAML模板
+
+**🎯 用途：统一开发环境的Kubernetes配置**
+
+---
+
+## 📋 YAML配置
+
+```yaml
+# 工作空间存储
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {pvc_name_workspace}
+  namespace: default
+  labels:
+    app: {deployment_name}
+spec:
+  accessModes: [ReadWriteOnce]
+  storageClassName: local
+  resources:
+    requests:
+      storage: {storage_size}
+---
+# VS Code Server存储
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {pvc_name_vscode}
+  namespace: default
+  labels:
+    app: {deployment_name}
+spec:
+  accessModes: [ReadWriteOnce]
+  storageClassName: local
+  resources:
+    requests:
+      storage: 5Gi
+---
+# Cursor存储
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {pvc_name_cursor}
+  namespace: default
+  labels:
+    app: {deployment_name}
+spec:
+  accessModes: [ReadWriteOnce]
+  storageClassName: local
+  resources:
+    requests:
+      storage: 5Gi
+---
+# 开发环境部署
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {deployment_name}
+  namespace: default
+  labels:
+    app: {deployment_name}
+    type: dev-env
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {deployment_name}
+  template:
+    metadata:
+      labels:
+        app: {deployment_name}
+        type: dev-env
+    spec:
+      containers:
+      - name: dev-environment
+        image: registry.opsman.top/kmai/ubuntu:22.04-ide
+        env:
+        - name: ACCESS_PASSWORD
+          value: "{access_password}"
+        - name: ROOT_PASSWORD
+          value: "{ssh_password}"
+        - name: WORKSPACE_DIR
+          value: "/workspace"
+        ports:
+        - containerPort: 8080  # VS Code Web
+        - containerPort: 22     # SSH
+        resources:
+          requests:
+            memory: "{memory_request}"
+            cpu: "{cpu_request}"
+          limits:
+            memory: "{memory_limit}"
+            cpu: "{cpu_limit}"
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 8080
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 8080
+          initialDelaySeconds: 15
+          periodSeconds: 5
+          timeoutSeconds: 3
+          failureThreshold: 3
+        startupProbe:
+          tcpSocket:
+            port: 22
+          initialDelaySeconds: 5
+          periodSeconds: 5
+          timeoutSeconds: 3
+          failureThreshold: 6
+        volumeMounts:
+        - name: workspace-storage
+          mountPath: /workspace
+        - name: vscode-storage
+          mountPath: /root/.vscode-server
+        - name: cursor-storage
+          mountPath: /root/.cursor
+        volumes:
+      - name: workspace-storage
+        persistentVolumeClaim:
+          claimName: {pvc_name_workspace}
+      - name: vscode-storage
+        persistentVolumeClaim:
+          claimName: {pvc_name_vscode}
+      - name: cursor-storage
+        persistentVolumeClaim:
+          claimName: {pvc_name_cursor}
+---
+# 网络服务
+apiVersion: v1
+kind: Service
+metadata:
+  name: {service_name}
+  namespace: default
+  labels:
+    app: {deployment_name}
+spec:
+  type: NodePort
+  selector:
+    app: {deployment_name}
+  ports:
+  - name: vscode-web
+    port: 8080
+    targetPort: 8080
+    nodePort: {web_node_port}
+  - name: ssh
+    port: 22
+    targetPort: 22
+    nodePort: {ssh_node_port}
+  externalTrafficPolicy: Cluster
+```
+
+---
+
+## 🔧 参数说明
+
+### 必需参数
+- `{deployment_name}`: 部署名称（如：dev-env-demo-20251121-150000）
+- `{pvc_name_workspace}`: 工作空间PVC名称
+- `{pvc_name_vscode}`: VS Code Server PVC名称
+- `{pvc_name_cursor}`: Cursor PVC名称
+- `{service_name}`: Service名称
+- `{access_password}`: VS Code Web访问密码（首次登录后要求修改）
+- `{ssh_password}`: SSH root用户密码
+
+### 网络参数
+- `{web_node_port}`: VS Code Web端口（范围30000-32767）
+- `{ssh_node_port}`: SSH端口（范围30000-32767）
+
+### 资源参数
+- `{storage_size}`: 工作空间存储大小
+- `{memory_request}/{memory_limit}`: 内存请求/限制
+- `{cpu_request}/{cpu_limit}`: CPU请求/限制
+
+---
+
+*纯YAML配置，参数由工作流动态替换*
