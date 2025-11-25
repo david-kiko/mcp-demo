@@ -1,3 +1,6 @@
+# Claude 相关文件
+.claude/
+
 # 生成文件目录（包含所有生成内容）
 .generated/
 
