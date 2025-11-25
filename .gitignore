@@ -24,3 +24,12 @@ node_modules/
 # 环境变量文件
 .env
 .env.local
+
+# 二进制文件
+*.deb
+*.rpm
+*.msi
+*.dmg
+
+# dev-env 二进制文件
+scenarios/dev-env/code-server_*.deb
