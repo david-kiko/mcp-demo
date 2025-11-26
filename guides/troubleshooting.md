@@ -179,7 +179,7 @@ mcp__mcp-k8s__get_services namespace="default"
 
 | 问题 | 原因 | 解决方案 |
 |------|------|----------|
-| 镜像拉取失败 | 镜像地址错误 | 使用指定镜像：registry.opsman.top/kmai/python:3.12-alpine-data |
+| 镜像拉取失败 | 镜像地址错误 | 检查配置模板中的镜像地址 |
 | 资源不足 | 集群资源临时耗尽 | 调整资源限制或等待资源释放 |
 | 临时网络问题 | 网络波动 | 重试任务执行 |
 | Pod调度延迟 | 调度器临时繁忙 | 等待或稍后重试 |
@@ -290,13 +290,10 @@ df = pd.read_csv('/data/large.csv', chunksize=10000)
 ### 问题升级机制
 ```bash
 # 如果初步解决失败，执行：
-1. 重新加载约束文档
-   mcp__mcp-rustfs__get_file_content file_path="reference/constraints.md" bucket="code-server-documents"
-
-2. 检查服务器整体状态
+1. 检查服务器整体状态
    mcp__mcp-k8s__server_status
 
-3. 重新开始标准流程
+2. 重新开始标准流程
    # 回到对应的工作流文档重新开始
 ```
 

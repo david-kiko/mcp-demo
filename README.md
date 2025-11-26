@@ -7,7 +7,7 @@
 ## 🚨 核心设计
 
 ### 统一基础环境
-- **单一镜像**：registry.opsman.top/kmai/ubuntu:22.04-ide
+- **基础镜像**：基于 Ubuntu 22.04 的 IDE 镜像（详见模板）
 - **目录预挂载**：/root/.vscode
 - **默认Web版**：创建环境时默认启动VS Code网页版
 - **按需配置**：需要时配置本地IDE
