@@ -138,7 +138,7 @@ check_vscode_installation_method() {
 **文件说明**：
 - `vscode-server-linux-x64.tar.gz` → 解压后重命名为 `server` 放入 `cli/servers/Stable-${commit_id}/`
 - `vscode_cli_alpine_x64_cli.tar.gz` → 解压后重命名为 `code-${commit_id}` 放入 `.vscode-server/`
-**路由到**：[local-ide-setup-1.md](./local-ide-setup-1.md)
+**路由到**：[vscode-new-method.md](./vscode-new-method.md)
 
 ### 🔄 旧方法安装
 **条件**：检测到 `vscode-server-linux-x64.tar.gz` + `vscode-reh-linux-x64.tar.gz`
@@ -146,7 +146,7 @@ check_vscode_installation_method() {
 **文件说明**：
 - `vscode-server-linux-x64.tar.gz` → 解压后放入 `bin/${commit_id}/`
 - `vscode-reh-linux-x64.tar.gz` → 解压后放入 `bin/${commit_id}/`
-**路由到**：[local-ide-setup-2.md](./local-ide-setup-2.md)
+**路由到**：[vscode-old-method.md](./vscode-old-method.md)
 
 ---
 

@@ -1,0 +1,53 @@
+# Ubuntu常驻环境 - 用于时间戳获取等系统操作
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ubuntu-deployment
+  namespace: default
+  labels:
+    app: ubuntu
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ubuntu
+  template:
+    metadata:
+      labels:
+        app: ubuntu
+    spec:
+      containers:
+      - name: ubuntu
+        image: registry.opsman.top/kmai/ubuntu:22.04-tail
+        imagePullPolicy: Always
+        env:
+          - name: TZ
+            value: "Asia/Shanghai"
+        command:
+          - sleep
+          - infinity
+        resources:
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+          requests:
+            memory: "512Mi"
+            cpu: "500m"
+---
+# Ubuntu Service - 用于稳定的Pod访问
+apiVersion: v1
+kind: Service
+metadata:
+  name: ubuntu-deployment
+  namespace: default
+  labels:
+    app: ubuntu
+spec:
+  selector:
+    app: ubuntu
+  ports:
+  - name: service-port
+    port: 80
+    targetPort: 80
+  type: ClusterIP

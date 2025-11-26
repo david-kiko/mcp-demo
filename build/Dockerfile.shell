@@ -1,0 +1,27 @@
+# 基础执行环境Dockerfile
+# 用于执行文档中的shell命令（如openssl生成密码等）
+
+FROM ubuntu:22.04
+
+# 更新包管理器并安装基础工具
+RUN apt-get update && apt-get install -y \
+    # 基础工具
+    curl \
+    wget \
+    git \
+    vim \
+    nano \
+    # 网络工具
+    telnet \
+    dnsutils \
+    # 加密工具（用于生成密码）
+    openssl \
+    # 清理缓存
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
+# 设置工作目录
+WORKDIR /workspace
+
+# 保持容器运行
+CMD ["tail", "-f", "/dev/null"]

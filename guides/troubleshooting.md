@@ -291,7 +291,7 @@ df = pd.read_csv('/data/large.csv', chunksize=10000)
 ```bash
 # 如果初步解决失败，执行：
 1. 重新加载约束文档
-   Read(shared/constraints.md)
+   mcp__mcp-rustfs__get_file_content file_path="reference/constraints.md" bucket="code-server-documents"
 
 2. 检查服务器整体状态
    mcp__mcp-k8s__server_status

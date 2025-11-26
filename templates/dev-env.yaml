@@ -37,21 +37,6 @@ spec:
     requests:
       storage: 5Gi
 ---
-# Cursor存储
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: {pvc_name_cursor}
-  namespace: default
-  labels:
-    app: {deployment_name}
-spec:
-  accessModes: [ReadWriteOnce]
-  storageClassName: local
-  resources:
-    requests:
-      storage: 5Gi
----
 # 开发环境部署
 apiVersion: apps/v1
 kind: Deployment
@@ -75,6 +60,7 @@ spec:
       containers:
       - name: dev-environment
         image: registry.opsman.top/kmai/ubuntu:22.04-ide
+        imagePullPolicy: Always
         env:
         - name: ACCESS_PASSWORD
           value: "{access_password}"
@@ -85,6 +71,7 @@ spec:
         ports:
         - containerPort: 8080  # VS Code Web
         - containerPort: 22     # SSH
+        - containerPort: 7681   # Web Terminal (ttyd)
         resources:
           requests:
             memory: "{memory_request}"
@@ -120,19 +107,14 @@ spec:
           mountPath: /workspace
         - name: vscode-storage
           mountPath: /root/.vscode-server
-        - name: cursor-storage
-          mountPath: /root/.cursor
-        volumes:
+            volumes:
       - name: workspace-storage
         persistentVolumeClaim:
           claimName: {pvc_name_workspace}
       - name: vscode-storage
         persistentVolumeClaim:
           claimName: {pvc_name_vscode}
-      - name: cursor-storage
-        persistentVolumeClaim:
-          claimName: {pvc_name_cursor}
----
+      ---
 # 网络服务
 apiVersion: v1
 kind: Service
@@ -154,6 +136,10 @@ spec:
     port: 22
     targetPort: 22
     nodePort: {ssh_node_port}
+  - name: web-terminal
+    port: 7681
+    targetPort: 7681
+    nodePort: {ttyd_node_port}
   externalTrafficPolicy: Cluster
 ```
 
@@ -165,14 +151,14 @@ spec:
 - `{deployment_name}`: 部署名称（如：dev-env-demo-20251121-150000）
 - `{pvc_name_workspace}`: 工作空间PVC名称
 - `{pvc_name_vscode}`: VS Code Server PVC名称
-- `{pvc_name_cursor}`: Cursor PVC名称
 - `{service_name}`: Service名称
 - `{access_password}`: VS Code Web访问密码（首次登录后要求修改）
 - `{ssh_password}`: SSH root用户密码
 
 ### 网络参数
-- `{web_node_port}`: VS Code Web端口（范围30000-32767）
-- `{ssh_node_port}`: SSH端口（范围30000-32767）
+- `{web_node_port}`: VS Code Web端口（范围30000-30999）
+- `{ssh_node_port}`: SSH端口（范围31000-31999）
+- `{ttyd_node_port}`: Web Terminal端口（范围32000-32767）
 
 ### 资源参数
 - `{storage_size}`: 工作空间存储大小

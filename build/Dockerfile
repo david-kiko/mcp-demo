@@ -43,6 +43,10 @@ COPY code-server_4.105.1_amd64.deb /tmp/code-server.deb
 RUN gdebi -n /tmp/code-server.deb && \
     rm /tmp/code-server.deb
 
+# 复制并安装 ttyd (web终端)
+COPY ttyd.x86_64 /usr/local/bin/ttyd
+RUN chmod +x /usr/local/bin/ttyd
+
 # 安装 kmcode-cli
 # RUN npm install -g @kmsoft-ai/kmcode-cli --registry http://192.168.31.100:4873/ --force
 
@@ -59,7 +63,11 @@ RUN mkdir -p /root/.config/code-server && \
     echo 'cert: false' >> /root/.config/code-server/config.yaml
 
 # 暴露端口
-EXPOSE 22 8080
+EXPOSE 22 8080 7681
 
-# 设置启动命令 - 同时启动SSH和code-server
-CMD ["sh", "-c", "echo \"root:${ROOT_PASSWORD:-root}\" | chpasswd && service ssh start && PASSWORD=\"${ACCESS_PASSWORD:-admin123}\" code-server"]
+# 创建启动脚本
+COPY start.sh /usr/local/bin/start.sh
+RUN chmod +x /usr/local/bin/start.sh
+
+# 设置启动命令
+CMD ["/usr/local/bin/start.sh"]
