@@ -3,6 +3,7 @@ FROM ubuntu:22.04
 # 设置默认密码（可通过环境变量覆盖）
 ENV ROOT_PASSWORD=root
 ENV ACCESS_PASSWORD=admin123
+ENV TTYD_PASSWORD=
 
 # 更新包管理器并安装必要的软件
 RUN apt-get update && apt-get install -y \
