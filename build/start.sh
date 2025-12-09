@@ -3,6 +3,13 @@
 # 设置root密码
 echo "root:${ROOT_PASSWORD:-root}" | chpasswd
 
+# 创建 kmcode-cli 配置文件
+if [ -n "$KMCODE_CONFIG" ]; then
+    mkdir -p ~/.kmcode-cli
+    echo "$KMCODE_CONFIG" > ~/.kmcode-cli/config.json
+    echo "kmcode-cli config created at ~/.kmcode-cli/config.json"
+fi
+
 # 启动SSH服务
 service ssh start
 

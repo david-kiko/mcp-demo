@@ -4,6 +4,7 @@ FROM ubuntu:22.04
 ENV ROOT_PASSWORD=root
 ENV ACCESS_PASSWORD=admin123
 ENV TTYD_PASSWORD=
+ENV KMCODE_CONFIG=
 
 # 更新包管理器并安装必要的软件
 RUN apt-get update && apt-get install -y \
@@ -49,7 +50,7 @@ COPY ttyd.x86_64 /usr/local/bin/ttyd
 RUN chmod +x /usr/local/bin/ttyd
 
 # 安装 kmcode-cli
-# RUN npm install -g @kmsoft-ai/kmcode-cli --registry http://192.168.31.100:4873/ --force
+RUN npm install -g @kmsoft-ai/kmcode-cli --registry http://192.168.31.100:4873/ --force
 
 # 安装 Claude Code CLI
 RUN npm install -g @anthropic-ai/claude-code
